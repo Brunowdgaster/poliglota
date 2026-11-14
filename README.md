@@ -26,7 +26,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 |---|---|---|---|---|
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configuracoes × 3 CPUs com contadores de hardware, chamada indireta (CALLI) pedida pelo P02, 54/54 na compatibilidade cruzada, CI 9/9. C++/Zig/Assembly pendentes |
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Compilador completo, com closures.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 testes nas 3 VMs do P01. Portes e provas pendentes |
-| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | 🟨 **Nucleo OTP completo e medido:** 700 mil conexoes supervisionadas em 2,3 GB, 3.534 bytes cada; caos mata 210 mil e o supervisor sobrevive. Ambiente 100% livre, 11/11. Demais linguagens pendentes |
+| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | 🟨 **Elixir e Go completos:** 700 mil conexoes supervisionadas em 2,5 GB; socket WebSocket real custa 1,9x um processo BEAM. Ambiente 100% livre, 11/11, CI 3/3. Demais linguagens pendentes |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
@@ -79,6 +79,12 @@ projeto publicado:
   de uma vez, o supervisor é o mesmo processo depois, e o processo
   `:permanent` de estatísticas volta em 5,83 ms com a contagem correta, relida
   do registro.
+- **Um socket real custa 1,9x um processo BEAM: 7,1 KB contra 3,8 KB.** O
+  gateway WebSocket em Go, escrito sem dependências para que os buffers fossem
+  escolha medida e não herdada — e escolher 1 KiB em vez dos 4 KiB que as
+  bibliotecas usam por padrão economiza 35% por conexão. O folclore diz
+  "milhares contra milhões"; o que separa as plataformas em escala não é o
+  custo por conexão, é supervisão e isolamento de falha.
 - **Ambiente com zero recursos pagos**, 14 ferramentas, 11/11 no teste de
   fumaça — incluindo um cluster Kubernetes real. Quatro escolhas para evitar
   armadilha de licença: Docker Engine (não Desktop), OpenTofu (não
