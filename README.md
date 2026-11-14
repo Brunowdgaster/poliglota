@@ -24,8 +24,8 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 
 | # | Repositório | Tema | Linguagens | Status |
 |---|---|---|---|---|
-| P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementações comparadas sob medição | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configurações × 3 CPUs, mecanismo confirmado com contadores de hardware (`perf`), 42/42 na compatibilidade cruzada de bytecode, CI 9/9. C++/Zig/Assembly pendentes |
-| P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Front-end completo.** Hindley-Milner total em Haskell, 25/25 testes, bytecode identico ao do P01 e rodando nas duas VMs dele. Closures, portes e provas pendentes |
+| P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configuracoes × 3 CPUs com contadores de hardware, chamada indireta (CALLI) pedida pelo P02, 54/54 na compatibilidade cruzada, CI 9/9. C++/Zig/Assembly pendentes |
+| P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Compilador completo, com closures.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 testes nas 3 VMs do P01. Portes e provas pendentes |
 | P03 | `otp-mesh` | Plataforma distribuída de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ⬜ scaffold |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
@@ -61,16 +61,13 @@ projeto publicado:
 
 ### P02 — forge-lang
 
-- **Inferência de tipos total, sem nenhuma anotação no fonte.** A linguagem não
-  tem sintaxe para anotar tipo; o compilador deduz tudo, incluindo
-  `forall t1 t2. (t1 -> t2) -> t1 -> t2`.
-- **O verificador de tipos é comprovadamente mais geral que o gerador de
-  código**, e isso é um teste e não uma frase: três programas de ordem superior
-  que o verificador aceita e o backend recusa, numa categoria de teste própria.
-- **A promessa do P01 se sustentou.** O P01 afirmou que o bytecode foi
-  "desenhado para o P02 estender". O P02 compila para ele sem modificá-lo, com
-  bytes idênticos aos do montador em C, e o CI do P02 clona e compila o P01 a
-  cada push para provar isso.
+- **A promessa do P01 foi testada e custou uma instrucao.** O P01 afirmou que
+  o bytecode foi "desenhado para o P02 estender". Quando o forge precisou de
+  closures, a pergunta virou mensuravel: quanto da VM precisa mudar? Resposta:
+  **um opcode** (, chamada indireta) e ~45 linhas somando as duas
+  implementacoes. Closure e array comum, entao o heap e o coletor existentes
+  bastaram. O CI do P02 clona e compila o P01 a cada push para manter isso
+  verificado.
 
 ### E o que não deu certo
 
