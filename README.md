@@ -84,6 +84,22 @@ mostra as três. Isso é parte do que o portfólio demonstra.
 **Regra:** nenhum projeto é publicado antes de ter README completo, CI verde e um resultado
 medido. Quatro repositórios excelentes valem mais que catorze abandonados.
 
+## Viabilidade nesta máquina
+
+Antes de prometer 14 projetos, a pergunta óbvia: o hardware aguenta, e de graça?
+Resposta verificada por inspeção, não estimada, em
+**[VIABILIDADE.md](VIABILIDADE.md)**:
+
+> **12 dos 14 projetos sem ressalva, 2 com ressalva real, custo R$ 0.** Duas
+> linguagens da lista original (Stata e VBA) não têm caminho gratuito e saem com
+> justificativa escrita.
+
+As restrições que realmente limitam são quatro: **8 GB de RAM** (obriga rodar um
+stack por vez e derruba a meta de escala do P03), **ausência de Mac** (o app iOS
+fica guiado por CI, não interativo), **Unreal Engine** (8 GB + 2 GB de VRAM
+provavelmente não abrem o editor) e **Triton** (exige GPU sm_70; a desta máquina
+é sm_61 → Colab).
+
 ## Restrições declaradas
 
 | Restrição | Afeta | Como foi resolvido |
