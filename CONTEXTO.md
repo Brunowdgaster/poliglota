@@ -22,7 +22,7 @@ e trade-off escrito — não como pasta com *hello world*.
 Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje 5);
+- **profundidade real** em um núcleo de linguagens (hoje 10);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
 Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
@@ -34,13 +34,18 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ### Linguagens com implementação profunda: **5**
 
-| linguagem | projeto | linhas | evidência |
-|---|---|---|---|
-| Rust | P01 | 1.959 | VM completa, zero `unsafe`, clippy limpo |
-| Haskell | P02 | 1.403 | compilador com inferência de Hindley-Milner |
-| C | P01 | 1.571 | VM + GC + montador, gcc/clang/MSVC |
-| Elixir | P03 | 1.029 | núcleo OTP, 700 mil conexões medidas |
-| Go | P03 | 959 | gateway WebSocket sem dependências |
+| linguagem | projeto | evidência |
+|---|---|---|
+| Rust | P01, P03 | VM completa sem `unsafe`; NIF medindo ~30 ns de travessia |
+| Haskell | P02 | compilador com inferência de Hindley-Milner |
+| C | P01 | VM + GC + montador, gcc/clang/MSVC |
+| Elixir | P03 | núcleo OTP, 700 mil conexões, 35 testes |
+| Go | P03 | gateway WebSocket sem dependências, 7,1 KB/conexão |
+| Erlang | P03 | conexão alternativa na mesma árvore; 1 byte de diferença |
+| Gleam | P03 | codec tipado, 13 testes, `@external` para OTP sem FFI |
+| Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida |
+| Clojure | P03 | atom/ref/agent contra GenServer; 2 patologias achadas |
+| HCL | P03 | OpenTofu, 20 asserções verificando 5 propriedades |
 
 ### Auxiliares genuinamente usadas: 4
 
@@ -59,7 +64,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 |---|---|---|---|
 | P01 metal-vm | 10 | 2 (C, Rust) | C++, Zig, Assembly ×3, Nim, Odin, D, V, Ada |
 | P02 forge-lang | 11 | 1 (Haskell) | OCaml, F#, Lisps, Prolog, Lean, Coq, Agda, Idris, TLA+, WAT |
-| P03 otp-mesh | 8 | 2 (Elixir, Go) | **Erlang, Gleam, Rust, Scala, Clojure, HCL** |
+| P03 otp-mesh | 8 | **8 — completo** | — |
 | P04–P14 | ~95 | 0 | tudo |
 
 **5 de ~130 — 3,8%.**
@@ -84,7 +89,9 @@ mais `p04-*` a `p14-*` vazias.
 
 ## 4. A ordem de trabalho decidida
 
-**Primeiro: terminar o P03.** Faltam 6 linguagens (Erlang, Gleam, Rust, Scala,
+**P03 está terminado** (8/8 linguagens, CI 9/9). A ordem abaixo segue dele.
+
+~~Primeiro: terminar o P03.~~ Faltavam 6 linguagens (Erlang, Gleam, Rust, Scala,
 Clojure, HCL) e a ponte entre o gateway em Go e o núcleo em Elixir, que o
 README admite não existir.
 
@@ -103,8 +110,8 @@ para este objetivo:
 | 7 | P04, P07, P08, P11, P13 | ~25 | produtos maiores |
 | 8 | **P02 restante** | 10 | provas em Lean/Coq/Agda/Idris: o trabalho mais caro de todos |
 
-P12 → P06 levaria de 5 para ~45 linguagens com esforço comparável ao de
-terminar P02 e P03 sozinhos.
+P12 → P06 levaria de 10 para ~50 linguagens com esforço comparável ao de
+terminar P02 sozinho.
 
 ---
 
@@ -143,20 +150,34 @@ terminar P02 e P03 sozinhos.
 
 ---
 
-## 6. A lição que se repetiu cinco vezes
+## 6. A lição que se repetiu sete vezes
 
-**Falha silenciosa: redirecionar a saída e não olhar o código de retorno.**
+**O instrumento esconde o próprio sinal.** Começou como "falha silenciosa:
+redirecionar a saída e não olhar o código de retorno", e as duas últimas
+ocorrências mostraram que o padrão é mais largo que isso.
 
-1. `bench/run_bench.sh` do P01 — pulava binários inexistentes em silêncio;
-2. `Mesh.Chaos.kill_fraction` do P03 — devolvia contagem parcial no timeout;
-3. `setup.sh` do P03 — `apt-get install` sem `update` e sem checar retorno;
-4. `tests/smoke.sh` do P03 — `2>/dev/null` escondia o motivo da falha;
-5. `cmd/loadgen` do P03 — tratado preventivamente: sai com erro se abrir menos
-   conexões do que pediram.
+| # | onde | como escondeu |
+|---|---|---|
+| 1 | `bench/run_bench.sh` (P01) | pulava binários inexistentes em silêncio |
+| 2 | `Mesh.Chaos.kill_fraction` (P03) | devolvia contagem parcial no timeout |
+| 3 | `setup.sh` (P03) | `apt-get install` sem `update` e sem checar retorno |
+| 4 | `tests/smoke.sh` (P03) | `2>/dev/null` escondia o motivo da falha |
+| 5 | `cmd/loadgen` (P03) | tratado **preventivamente**: sai com erro se abrir menos conexões do que pediram |
+| 6 | `bench/nif.exs` (P03) | media A em bloco e B em bloco; duas execuções deram **conclusões opostas** |
+| 7 | `setup-opentofu` no CI (P03) | o wrapper da action **engolia o exit code** de `plan -detailed-exitcode`: passava local, falhava no CI, e reportava "nenhum desvio" em vez de "não sei" |
 
-**Conhecer o modo de falha não imuniza contra ele.** Ao escrever qualquer
-ferramenta de medição ou provisionamento: cheque o retorno, mostre o motivo,
-falhe alto.
+**Conhecer o modo de falha não imuniza contra ele** — sete vezes é prova disso.
+A conclusão prática mudou de "tome cuidado" para **"a correção tem de ser
+código"**:
+
+- cheque o retorno, mostre o motivo, falhe alto;
+- **alterne** A e B ao comparar, e reporte a dispersão ao lado do número;
+- **recuse-se a concluir** quando a margem não supera o ruído;
+- **autoteste o instrumento** antes de usá-lo, e confronte duas evidências
+  independentes. Em `infra/verifica.sh`, código de saída **e** texto do plan:
+  quando discordam, ele diz "INSTRUMENTO QUEBRADO", não "nenhum desvio".
+
+**Falso OK é pior que falha.**
 
 Outras lições já pagas:
 
@@ -223,23 +244,36 @@ LibreOffice Basic é outro dialeto).
 
 ---
 
-## 8. O que falta no P03, concretamente
+## 8. O P03 está completo: o que ele mediu
 
-Ver o roadmap do [README do otp-mesh](https://github.com/Brunowdgaster/otp-mesh).
-Em resumo, na ordem recomendada:
+**8 de 8 linguagens integradas, CI 9/9.** Nada aqui deve ser refeito.
 
-1. **A ponte gateway ↔ núcleo** — hoje o gateway em Go aceita WebSocket real e
-   o núcleo em Elixir sustenta 700 mil processos, mas **não se falam**. É a
-   incoerência que o README admite e que deve sair primeiro.
-2. **Erlang** — a mesma árvore de supervisão em Erlang puro, lado a lado com a
-   de Elixir. É a comparação que o projeto promete, e é barata: mesma BEAM.
-3. **Gleam** — um serviço com tipagem estática na mesma BEAM.
-4. **HCL/OpenTofu** — provisionar o stack local (`kind`, NATS) por IaC, com
-   providers locais.
-5. **Scala e Clojure** — processamento de stream sobre o barramento NATS.
-6. **Rust via NIF** — caminho crítico, medindo o custo da travessia.
+| peça | linguagem | resultado |
+|---|---|---|
+| núcleo OTP | Elixir | 700 mil conexões, 3.534 B cada, 35 testes |
+| gateway WebSocket | Go | 7,1 KB/conexão, buffers de 1 KiB economizam 35% |
+| ponte gateway↔núcleo | Elixir + Go | `packet: 4`, 500 sockets reais viram 500 processos |
+| conexão alternativa | Erlang | **1 byte** de diferença contra Elixir |
+| codec tipado | Gleam | 3 erros movidos para o compilador; `@external` sem FFI |
+| codec como NIF | Rust | travessia **~30 ns**; Elixir ganha até 4 KiB, resto no ruído |
+| concorrência | Scala + JDK 25 | Loom: **1.323 B** vs 2.732 B da BEAM, mas **inanição total** sob carga de CPU (BEAM degrada 21x) |
+| contenção | Clojure | `agent` **empata** com GenServer (534 k vs 493 k); sem coordenação perde 70% em silêncio |
+| infraestrutura | HCL + OpenTofu | 20 asserções: convergência, idempotência, desvio, grafo, destroy |
 
-Resultados já medidos que não devem ser refeitos:
+**Protocolo da ponte verificado em 4 linguagens** contra `protocolo/vetores.txt`:
+Elixir, Go, Gleam e Rust.
+
+Dois achados que vieram de números implausíveis, não de hipóteses:
+
+- `write_concurrency` do ETS fragmenta **por chave**: na mesma chave, adicionar
+  núcleos deixa **200x mais lento** (3,6 M/s com 1 worker, 17 mil com 8).
+  Chaves separadas escalam para 24,1 M/s — **1.400x** de diferença na mesma
+  tabela;
+- `cast` mais lento que `call` é **falta de contrapressão**: a caixa chegou a
+  811 mil mensagens. `message_queue_data: :off_heap` rende 254x sob contenção e
+  custa 2,8x sem ela. `call` é auto-limitado — dá contrapressão de graça.
+
+Outros resultados medidos:
 
 - 700 mil conexões, 3.783 bytes cada, num nó BEAM;
 - caos: matar 210 mil converge em 8,9 s, supervisor sobrevive, `Stats`

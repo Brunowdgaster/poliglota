@@ -26,7 +26,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 |---|---|---|---|---|
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configuracoes × 3 CPUs com contadores de hardware, chamada indireta (CALLI) pedida pelo P02, 54/54 na compatibilidade cruzada, CI 9/9. C++/Zig/Assembly pendentes |
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Compilador completo, com closures.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 testes nas 3 VMs do P01. Portes e provas pendentes |
-| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | 🟨 **Elixir e Go completos:** 700 mil conexoes supervisionadas em 2,5 GB; socket WebSocket real custa 1,9x um processo BEAM. Ambiente 100% livre, 11/11, CI 3/3. Demais linguagens pendentes |
+| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ✅ **Completo, 8/8 linguagens, CI 9/9.** 700 mil conexoes supervisionadas a 3.534 B cada; protocolo verificado byte a byte em 4 linguagens; travessia de NIF em ~30 ns; Loom custa 1.323 B mas sofre inanicao total onde a BEAM degrada 21x; `agent` de Clojure empata com GenServer; 20 asseroes de IaC. Ambiente 100% livre |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
@@ -98,7 +98,8 @@ conforme novas máquinas apareceram, e o `git log` mostra as três. No P02, dois
 testes nasceram errados e um bug de alocação de slot foi pego ao escrever o
 comentário que explicava por que ele não existia.
 
-E o P03 encontrou **o mesmo modo de falha quatro vezes**: harness de benchmark,
+E o portfólio encontrou **o mesmo modo de falha sete vezes** — instrumento que
+esconde o próprio sinal: harness de benchmark,
 injetor de caos, provisionador e verificador — todos redirecionavam a saída e
 ignoravam o código de retorno. Conhecer um modo de falha não imuniza contra
 ele; o que imuniza é a ferramenta reclamar alto. Isso também é parte do que o
