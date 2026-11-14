@@ -25,7 +25,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | # | Repositório | Tema | Linguagens | Status |
 |---|---|---|---|---|
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementações comparadas sob medição | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configurações × 3 CPUs, mecanismo confirmado com contadores de hardware (`perf`), 42/42 na compatibilidade cruzada de bytecode, CI 9/9. C++/Zig/Assembly pendentes |
-| P02 | `forge-lang` | Linguagem própria + prova formal do type checker | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | ⬜ scaffold |
+| P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Front-end completo.** Hindley-Milner total em Haskell, 25/25 testes, bytecode identico ao do P01 e rodando nas duas VMs dele. Closures, portes e provas pendentes |
 | P03 | `otp-mesh` | Plataforma distribuída de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ⬜ scaffold |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
@@ -44,7 +44,7 @@ Legenda: ⬜ pasta criada · 🟨 em desenvolvimento · ✅ completo (README + C
 Apenas o P01 está publicado. Os demais aparecem como `nome` em texto simples até
 existirem — link para repositório inexistente é pior que link ausente.
 
-## O que o P01 já estabeleceu
+## O que os projetos publicados já estabeleceram
 
 Para que este índice não seja só uma lista de intenções, o estado do único
 projeto publicado:
@@ -59,9 +59,26 @@ projeto publicado:
 - **Duas implementações independentes com bytecode byte a byte idêntico**,
   verificado em 42 checagens a cada push.
 
-Também o que **não** deu certo: três versões da conclusão principal foram
-publicadas e corrigidas conforme novas máquinas apareceram, e o `git log`
-mostra as três. Isso é parte do que o portfólio demonstra.
+### P02 — forge-lang
+
+- **Inferência de tipos total, sem nenhuma anotação no fonte.** A linguagem não
+  tem sintaxe para anotar tipo; o compilador deduz tudo, incluindo
+  `forall t1 t2. (t1 -> t2) -> t1 -> t2`.
+- **O verificador de tipos é comprovadamente mais geral que o gerador de
+  código**, e isso é um teste e não uma frase: três programas de ordem superior
+  que o verificador aceita e o backend recusa, numa categoria de teste própria.
+- **A promessa do P01 se sustentou.** O P01 afirmou que o bytecode foi
+  "desenhado para o P02 estender". O P02 compila para ele sem modificá-lo, com
+  bytes idênticos aos do montador em C, e o CI do P02 clona e compila o P01 a
+  cada push para provar isso.
+
+### E o que não deu certo
+
+Três versões da conclusão principal do P01 foram publicadas e corrigidas
+conforme novas máquinas apareceram, e o `git log` mostra as três. No P02, dois
+testes nasceram errados e um bug de alocação de slot foi pego ao escrever o
+comentário que explicava por que ele não existia. Isso também é parte do que o
+portfólio demonstra.
 
 ## Por onde começar a ler
 
