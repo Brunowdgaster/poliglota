@@ -64,7 +64,7 @@ projeto publicado:
 - **A promessa do P01 foi testada e custou uma instrucao.** O P01 afirmou que
   o bytecode foi "desenhado para o P02 estender". Quando o forge precisou de
   closures, a pergunta virou mensuravel: quanto da VM precisa mudar? Resposta:
-  **um opcode** (, chamada indireta) e ~45 linhas somando as duas
+  **um opcode** (`CALLI`, chamada indireta) e ~45 linhas somando as duas
   implementacoes. Closure e array comum, entao o heap e o coletor existentes
   bastaram. O CI do P02 clona e compila o P01 a cada push para manter isso
   verificado.
