@@ -222,7 +222,11 @@ Já instalado: `git`, `node`, `python`, `rustc/cargo`, `java` (apenas runtime), 
 Falta instalar, em ordem de retorno:
 
 1. **WSL2 + Ubuntu** — destrava gcc/clang, GnuCOBOL, GHC, OCaml, Verilator, GHDL, Elixir/Erlang e praticamente todo o resto. É o passo que mais rende.
-2. **Docker Desktop** — um container por linguagem exótica, sem poluir o Windows.
+2. **Docker Engine dentro do WSL** — um container por linguagem exótica, sem
+   poluir o Windows. **Engine**, não Desktop: o Desktop exige licença paga
+   acima de certo porte de empresa, e o Engine é Apache-2.0, roda nativo no
+   WSL2 e gasta menos RAM por não ter VM intermediária. Ver
+   [VIABILIDADE.md](VIABILIDADE.md#3-docker-engine-não-docker-desktop).
 3. `winget install` — Go, .NET SDK, LLVM, Make, Zig, Lua, Ruby, PHP, JDK completo (JDK, não só JRE).
 4. **Nix** (dentro do WSL) — ambientes reprodutíveis por projeto; isso vira o próprio P12.
 

@@ -11,7 +11,7 @@ Documento verificado por inspeção da máquina em 2026-11-13, não por estimati
 | | |
 |---|---|
 | CPU | Intel Core i5-8250U, 4 núcleos / 8 threads, 1,6 GHz base (classe U, com throttling) |
-| RAM | **7,9 GB** |
+| RAM | **7,9 GB** — mas o WSL2 vê só **3,8 GB** (ver [Correções](#correções-de-14112026-depois-de-montar-o-ambiente-do-p03)) |
 | GPU 1 | Intel UHD Graphics 620 (1 GB compartilhado) |
 | GPU 2 | **NVIDIA GeForce MX150, 2 GB, compute capability 6.1**, driver 582.53 |
 | Disco | 893 GB, **610 GB livres** |
@@ -26,13 +26,70 @@ Dois fatos verificados que mudam o plano original para melhor:
    (`perf_event_paranoid = 2`, PMU exposta). Medição de ciclos, instruções e
    erros de salto é possível sem Linux em metal puro. Já foi usado no P01.
 
+## Correções de 14/11/2026, depois de montar o ambiente do P03
+
+Montar o ambiente do P03 de verdade produziu três medições que **contradizem
+afirmações desta revisão**. Elas estão corrigidas no texto abaixo, e listadas
+aqui para que a diferença entre o estimado e o medido fique visível.
+
+### 1. O orçamento de RAM é 3,8 GB, não 7,9 GB
+
+A máquina tem 7,9 GB. O **WSL2 vê 3,8 GB** — metade do host, que é o padrão
+quando não existe `.wslconfig`:
+
+```
+$ free -h            # dentro do WSL
+               total        used        free   available
+Mem:           3.8Gi       631Mi       2.0Gi       3.2Gi
+```
+
+Como praticamente todo o trabalho dos 14 projetos roda no Linux, **o orçamento
+real é 3,8 GB**, e esta revisão raciocinou com o dobro disso. Onde o texto
+abaixo diz "8 GB", leia 3,8 GB para o lado Linux.
+
+Isso aperta, mas não bloqueia nada: `kind` com um nó consome ~1 GB e cada JVM
+~300 MB, o que mantém a regra de "um stack pesado por vez" — só a torna mais
+estrita. Um `.wslconfig` com `memory=6GB` resolve, ao custo de deixar ~2 GB
+para o Windows; o `setup.sh` do P03 **não** o cria, porque aplicar exige
+`wsl --shutdown` e é decisão de quem usa a máquina.
+
+### 2. Terraform não é software livre desde 2023 — use OpenTofu
+
+A revisão dizia "Terraform com providers locais". Terraform **existe e é
+gratuito** para este uso, mas em 2023 a HashiCorp trocou a licença de MPL-2.0
+para a **BUSL**: *source-available*, com proibição de uso competitivo e
+conversão em quatro anos. Não é software livre.
+
+O **OpenTofu** é o fork sob a Linux Foundation, **MPL-2.0**, com a mesma
+linguagem HCL e os mesmos *providers*. É o que o P03 usa, e o `.tf` roda nos
+dois.
+
+Mesma armadilha em **Redpanda**, que esta revisão sugeria no lugar do Kafka:
+também é BUSL. A escolha passou a ser **NATS** (Apache-2.0, binário de 15 MB,
+projeto graduado da CNCF). O porém é real e está declarado no P03: NATS é
+*pub/sub* com JetStream opcional, não o log particionado do Kafka.
+
+### 3. Docker Engine, não Docker Desktop
+
+O Docker **Desktop** exige licença paga para empresas acima de certo porte. O
+Docker **Engine** é Apache-2.0, roda nativamente no WSL2 (`systemd` como PID 1
+e `cgroup v2` montado, ambos verificados) e ainda gasta menos RAM por não ter
+VM intermediária. Onde esta revisão diz "Docker Desktop", leia Docker Engine.
+
+### O que isso prova sobre o método
+
+Nenhuma das três apareceu na revisão por estimativa: as três apareceram ao
+**instalar e rodar**. É o mesmo padrão do P01, onde três versões da conclusão
+principal foram corrigidas conforme novas máquinas apareceram. Revisão de
+viabilidade é hipótese; ambiente montado é medição.
+
 ## Veredito por projeto
 
 | # | Projeto | Veredito | Observação |
 |---|---|---|---|
 | P01 | metal-vm | ✅ **feito** | C e Rust completos, CI 9/9, `perf` usado |
 | P02 | forge-lang | ✅ viável | ~25 GB de disco para GHC, Coq, Isabelle, Lean, .NET. Isabelle quer 4–8 GB de RAM: rodar sozinho |
-| P03 | otp-mesh | ⚠️ **com ressalva** | "milhões de conexões" não cabe em 8 GB. Ver [Ajustes](#ajustes-necessários-no-plano) |
+| P03 | otp-mesh | ⚠️ **com ressalva** | "milhões de conexões" não cabe em 3,8 GB. **Ambiente montado e verificado**: 11/11 toolchains compilam e rodam, incluindo um cluster `kind` real |
 | P04 | webstack | ✅ viável | Node, PHP, Ruby, Elm, PureScript, Dart — todos leves |
 | P05 | datalab | ⚠️ **com ressalva** | SAS, MATLAB e Wolfram têm caminho gratuito; **Stata não tem** |
 | P06 | gpu-arena | ✅ viável | CUDA local na MX150. **Triton exige sm_70**, a MX150 é sm_61 → Colab |
@@ -53,7 +110,7 @@ Dois fatos verificados que mudam o plano original para melhor:
 
 | Projeto | O que não cabe | Mitigação |
 |---|---|---|
-| P03 | k8s local + cluster BEAM + Kafka ao mesmo tempo | `kind` com 1 nó, Redpanda em vez de Kafka, e **escalar a meta para ~50 k conexões** |
+| P03 | k8s local + cluster BEAM + Kafka ao mesmo tempo | `kind` com 1 nó, **NATS** em vez de Kafka (Apache-2.0, 15 MB), e **escalar a meta para ~50 k conexões** |
 | P05 | Spark em cluster | Spark em modo local com 2 executores |
 | P10 | Oracle XE + SQL Server + Neo4j simultâneos | Um contêiner por vez, via `docker compose --profile` |
 | P02 | Isabelle junto com qualquer outra coisa | Rodar isolado |
@@ -140,12 +197,17 @@ de verdade exige cartão de crédito**: AWS, GCP, Azure e Oracle pedem cartão
 mesmo nas camadas gratuitas. Isso não estava declarado, e era uma falha da
 revisão.
 
-A saída legítima é Terraform com **providers locais**: `docker`, `kubernetes`
-(apontando para o `kind`), `local_file`, `random`, `tls`. É HCL real — estado,
-plano, módulos, grafo de dependências, `for_each`, variáveis — só não cria VM
-em datacenter. Para demonstrar a linguagem e o modelo declarativo, é
-suficiente; e o README do P03 deve dizer exatamente isso em vez de deixar
-implícito que houve provisionamento de nuvem.
+A saída legítima é **OpenTofu** (não Terraform — ver
+[Correções](#correções-de-14112026-depois-de-montar-o-ambiente-do-p03)) com
+**providers locais**: `docker`, `kubernetes` (apontando para o `kind`),
+`local`, `random`, `tls`. É HCL real — estado, plano, módulos, grafo de
+dependências, `for_each`, variáveis — só não cria VM em datacenter. Para
+demonstrar a linguagem e o modelo declarativo, é suficiente; e o README do P03
+deve dizer exatamente isso em vez de deixar implícito que houve provisionamento
+de nuvem.
+
+Verificado: `tofu init` + `tofu apply` com o provider `local` roda no ambiente
+do P03, e está no teste de fumaça.
 
 Vale para qualquer projeto do plano: **nada aqui depende de conta paga em
 nuvem.**
@@ -225,7 +287,7 @@ Para não deixar só a lista de limites:
 ## Conclusão
 
 **Custo em dinheiro: R$ 0.** Nenhum projeto exige compra de software ou de
-hardware, e **nenhum exige cartão de crédito** — o Terraform é demonstrado com
+hardware, e **nenhum exige cartão de crédito** — o OpenTofu é demonstrado com
 providers locais justamente para não depender de conta de nuvem.
 
 **Nenhum dos 14 projetos fica impossível.** O que existe são componentes
