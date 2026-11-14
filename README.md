@@ -113,6 +113,15 @@ portfólio demonstra.
 
 ## Ordem de construção
 
+A ordem original abaixo foi ordenada por **dependência técnica e impressão**.
+Depois de três projetos, ela se mostrou errada para o objetivo declarado —
+cobrir o máximo de linguagens — porque o rendimento de linguagens por esforço
+varia brutalmente entre projetos. A ordem revista está em
+[CONTEXTO.md](CONTEXTO.md#4-a-ordem-de-trabalho-decidida): terminar o P03 e
+então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
+
+Ordem original, mantida para registro:
+
 | Fase | Projetos | Racional |
 |---|---|---|
 | 1 | P01, P12 | O VM é a espinha do P02 e do P09; o toolbelt constrói o ambiente de todos |
@@ -124,6 +133,18 @@ portfólio demonstra.
 
 **Regra:** nenhum projeto é publicado antes de ter README completo, CI verde e um resultado
 medido. Quatro repositórios excelentes valem mais que catorze abandonados.
+
+## Retomando o trabalho
+
+Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
+**[CONTEXTO.md](CONTEXTO.md)** é o ponto de partida: objetivo, estado medido,
+convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
+trabalho decidida. Nada precisa ser redescoberto.
+
+Resumo do estado em 2026-11-14: **5 linguagens com implementação profunda**
+(Rust, Haskell, C, Elixir, Go) de ~130 planejadas, em 3 projetos publicados de
+14. Mais 2 linguagens criadas do zero (`.fasm` e `forge`) e 4 auxiliares
+genuinamente usadas.
 
 ## Viabilidade nesta máquina
 

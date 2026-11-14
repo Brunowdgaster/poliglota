@@ -1,0 +1,249 @@
+# Contexto para retomar o trabalho
+
+Documento de retomada. Se a sessão foi reiniciada e o histórico se perdeu,
+**leia este arquivo primeiro**: ele contém o objetivo, o estado medido, as
+convenções já estabelecidas e a ordem de trabalho decidida. Nada aqui precisa
+ser redescoberto.
+
+Última atualização: 2026-11-14.
+
+---
+
+## 1. O objetivo, na forma em que foi pedido
+
+> "Mostrar domínio completo e absoluto do maior número de linguagens possíveis."
+
+Catorze projetos de engenharia que, somados, cobrem ~130 linguagens. Cada
+linguagem aparece **onde é a escolha tecnicamente certa**, com resultado medido
+e trade-off escrito — não como pasta com *hello world*.
+
+### A calibração que o portfólio assume
+
+Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
+demonstram, e declaram em cada README:
+
+- **profundidade real** em um núcleo de linguagens (hoje 5);
+- **fluência de leitura, porte e avaliação de trade-off** nas demais.
+
+Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
+profundidade é descoberto na primeira pergunta técnica.
+
+---
+
+## 2. Onde está, medido em 2026-11-14
+
+### Linguagens com implementação profunda: **5**
+
+| linguagem | projeto | linhas | evidência |
+|---|---|---|---|
+| Rust | P01 | 1.959 | VM completa, zero `unsafe`, clippy limpo |
+| Haskell | P02 | 1.403 | compilador com inferência de Hindley-Milner |
+| C | P01 | 1.571 | VM + GC + montador, gcc/clang/MSVC |
+| Elixir | P03 | 1.029 | núcleo OTP, 700 mil conexões medidas |
+| Go | P03 | 959 | gateway WebSocket sem dependências |
+
+### Auxiliares genuinamente usadas: 4
+
+Bash (1.010), YAML/Actions (259), PowerShell (100), CMake (46). Aparecem no
+plano (P12 e infra), mas não contam como "dominadas": são ferramenta, não
+produto.
+
+### Criadas do zero: 2
+
+`.fasm` (390 linhas em 12 programas) e `forge` (132 linhas em 24 programas) —
+projetadas **e** implementadas, com gramática, montador e compilador.
+
+### Progresso contra o plano
+
+| projeto | linguagens-chave | feitas | falta |
+|---|---|---|---|
+| P01 metal-vm | 10 | 2 (C, Rust) | C++, Zig, Assembly ×3, Nim, Odin, D, V, Ada |
+| P02 forge-lang | 11 | 1 (Haskell) | OCaml, F#, Lisps, Prolog, Lean, Coq, Agda, Idris, TLA+, WAT |
+| P03 otp-mesh | 8 | 2 (Elixir, Go) | **Erlang, Gleam, Rust, Scala, Clojure, HCL** |
+| P04–P14 | ~95 | 0 | tudo |
+
+**5 de ~130 — 3,8%.**
+
+---
+
+## 3. Repositórios publicados
+
+Todos públicos, licença MIT, CI verde, na conta `Brunowdgaster`.
+
+| repo | o que é | estado |
+|---|---|---|
+| [poliglota](https://github.com/Brunowdgaster/poliglota) | índice, roadmap, viabilidade, este arquivo | — |
+| [metal-vm](https://github.com/Brunowdgaster/metal-vm) | VM de bytecode em C e Rust | 9 casos, 54/54 cross-compat, CI 9/9 |
+| [forge-lang](https://github.com/Brunowdgaster/forge-lang) | linguagem funcional + compilador | 39/39, closures, CI verde |
+| [otp-mesh](https://github.com/Brunowdgaster/otp-mesh) | plataforma OTP + gateway Go | 10/10 + 7/7, CI 3/3 |
+
+Pastas locais: `C:\Users\bruno\Desktop\Projetos\para se gabar\{poliglota,p01-metal-vm,p02-forge-lang,p03-otp-mesh}`,
+mais `p04-*` a `p14-*` vazias.
+
+---
+
+## 4. A ordem de trabalho decidida
+
+**Primeiro: terminar o P03.** Faltam 6 linguagens (Erlang, Gleam, Rust, Scala,
+Clojure, HCL) e a ponte entre o gateway em Go e o núcleo em Elixir, que o
+README admite não existir.
+
+**Depois, nesta ordem**, escolhida por **rendimento de linguagens por esforço** —
+não por impressão técnica, que foi o critério do roadmap original e é o errado
+para este objetivo:
+
+| ordem | projeto | linguagens | por quê |
+|---|---|---|---|
+| 1 | **P12** toolbelt | 11 | peças de 50–200 linhas cada; maior rendimento do portfólio |
+| 2 | **P10** query-lab | 7 | mesmo domínio em 7 dialetos de consulta |
+| 3 | **P14** first-code | 5 | programas pequenos, linguagens visuais |
+| 4 | **P05** datalab | 10 | mesmo modelo estatístico traduzido |
+| 5 | **P06** gpu-arena | 7 | mesmo kernel em 7 APIs de GPU |
+| 6 | P01 restante | 8 | porte do núcleo da VM, ~300 linhas cada |
+| 7 | P04, P07, P08, P11, P13 | ~25 | produtos maiores |
+| 8 | **P02 restante** | 10 | provas em Lean/Coq/Agda/Idris: o trabalho mais caro de todos |
+
+P12 → P06 levaria de 5 para ~45 linguagens com esforço comparável ao de
+terminar P02 e P03 sozinhos.
+
+---
+
+## 5. Convenções estabelecidas — siga-as
+
+### Em cada projeto
+
+- **README com 9 seções**: uma frase + resultado no topo, objetivo do
+  experimento, resultado medido, como rodar, arquitetura, **tabela de
+  linguagens e ferramentas** (`ferramenta | onde é usada | por que ela e não
+  outra | alternativa descartada`), decisões e trade-offs, limites conhecidos,
+  roadmap, aprendizados, estado atual.
+- **Status honesto no topo**, com tabela `✅ / ⬜` do que existe e do que não.
+- **Licença MIT**, `.gitattributes` com `* text=auto eol=lf`, `.gitignore`.
+- **CI no GitHub Actions**, verde antes de declarar pronto.
+
+### Medição
+
+- **Sempre reportar dispersão** ao lado do número. Se a dispersão é da ordem do
+  efeito, o efeito **não está estabelecido** — diga isso.
+- **Usar o mínimo**, não a média: no P01, o mínimo reproduziu dentro de 0,3 %
+  entre sessões enquanto o máximo variava 3×.
+- **Intercalar** execuções ao comparar variantes. Medir 15× uma e depois 15× a
+  outra atribui a deriva da máquina à segunda.
+- **Nunca comparar números de sessões diferentes.** Foi o erro da v2 do README
+  do P01.
+- **Runner de CI não é linha de base**: dois runners `ubuntu-latest` deram
+  631 e 411 Mops/s para binários idênticos.
+
+### Git
+
+- Mensagens de commit em português, com corpo explicando **o porquê** e os
+  números medidos.
+- Terminar com `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>`.
+- Publicar repo novo **só com autorização explícita** do usuário.
+
+---
+
+## 6. A lição que se repetiu cinco vezes
+
+**Falha silenciosa: redirecionar a saída e não olhar o código de retorno.**
+
+1. `bench/run_bench.sh` do P01 — pulava binários inexistentes em silêncio;
+2. `Mesh.Chaos.kill_fraction` do P03 — devolvia contagem parcial no timeout;
+3. `setup.sh` do P03 — `apt-get install` sem `update` e sem checar retorno;
+4. `tests/smoke.sh` do P03 — `2>/dev/null` escondia o motivo da falha;
+5. `cmd/loadgen` do P03 — tratado preventivamente: sai com erro se abrir menos
+   conexões do que pediram.
+
+**Conhecer o modo de falha não imuniza contra ele.** Ao escrever qualquer
+ferramenta de medição ou provisionamento: cheque o retorno, mostre o motivo,
+falhe alto.
+
+Outras lições já pagas:
+
+- **Teste instável é sintoma do sistema, não do teste.** `Mesh.close/1`
+  retornava antes de o `Registry` convergir.
+- **Verificar capacidade, não identidade de pacote**: `command -v docker`, não
+  `dpkg -s docker.io`.
+- **O instrumento tem viés**: RSS conta só páginas tocadas, então buffer grande
+  e ocioso é invisível. Anomalia implausível na tabela é informação.
+- **Comentar uma invariante encontra bugs**: o bug de slot do P02 apareceu
+  enquanto eu escrevia por que a invariante valia — e não valia.
+
+---
+
+## 7. Ambiente da máquina — fatos verificados
+
+| | |
+|---|---|
+| CPU | Intel i5-8250U, 4C/8T, classe U com throttling |
+| RAM | 7,9 GB na máquina, **o WSL2 vê 3,8 GB** (metade do host, padrão sem `.wslconfig`) |
+| GPU | Intel UHD 620 + **NVIDIA MX150, compute capability 6.1** |
+| Disco | 610 GB livres |
+| SO | Windows 11 Home + WSL2 Ubuntu 26.04, `systemd` PID 1, cgroup v2 |
+
+### Armadilhas conhecidas desta máquina
+
+- **Smart App Control bloqueia binários do MSVC.** O `fvm.exe` do P01 é
+  bloqueado em qualquer pasta (CodeIntegrity 3077/3118), enquanto hello-world
+  do mesmo compilador e binários Rust rodam. Solução adotada: compilar no WSL.
+- **`perf` funciona no WSL2** com contadores de hardware reais
+  (`perf_event_paranoid = 2`, PMU exposta). Já usado no P01.
+- **CUDA funciona no WSL2** (`nvidia-smi` responde, `/dev/dxg` presente), mas
+  **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab.
+- **Portas efêmeras 32768–60999** limitam testes de socket em loopback a
+  ~28 mil conexões.
+- **`ulimit -n` 10.240** por padrão; o teto duro é 1.048.576.
+- **Heredoc do Bash + Python colapsa barras invertidas.** Escrever scripts com
+  `\\` ou `\a` dentro de heredoc corrompe o arquivo. Use a ferramenta Write
+  para criar o script e então executá-lo.
+
+### Toolchains instalados e verificados
+
+C/C++ (gcc 15.2 no WSL, MSVC 19.5 no Windows), Rust 1.93, GHC 9.10.3,
+Erlang/OTP 27, Elixir 1.18.3, rebar3, Gleam 1.19.2, Go 1.26.8, OpenJDK 25,
+scala-cli 1.19, Clojure 1.12, Docker Engine 29.1, kind 0.33, kubectl 1.37,
+OpenTofu 1.13.9, NATS 2.15.3, perf, cmake, `gh` CLI **autenticado como
+Brunowdgaster**.
+
+`p03-otp-mesh/setup.sh` reprovisiona tudo; `tests/smoke.sh all` verifica
+(11 checagens, compila e executa em cada toolchain).
+
+### Escolhas de licença já decididas
+
+| escolhido | em vez de | motivo |
+|---|---|---|
+| Docker **Engine** | Docker Desktop | Desktop exige licença paga acima de certo porte |
+| **OpenTofu** (MPL-2.0) | Terraform | virou BUSL em 2023: *source-available*, não livre |
+| **NATS** (Apache-2.0) | Kafka / Redpanda | 15 MB e livre; Redpanda é BUSL |
+| **providers locais** | AWS/GCP/Azure/Oracle | todas pedem cartão mesmo na camada gratuita |
+
+**Sem caminho gratuito, a excluir do plano com justificativa escrita:**
+Stata (não há edição livre) e VBA (não há Office nesta máquina;
+LibreOffice Basic é outro dialeto).
+
+---
+
+## 8. O que falta no P03, concretamente
+
+Ver o roadmap do [README do otp-mesh](https://github.com/Brunowdgaster/otp-mesh).
+Em resumo, na ordem recomendada:
+
+1. **A ponte gateway ↔ núcleo** — hoje o gateway em Go aceita WebSocket real e
+   o núcleo em Elixir sustenta 700 mil processos, mas **não se falam**. É a
+   incoerência que o README admite e que deve sair primeiro.
+2. **Erlang** — a mesma árvore de supervisão em Erlang puro, lado a lado com a
+   de Elixir. É a comparação que o projeto promete, e é barata: mesma BEAM.
+3. **Gleam** — um serviço com tipagem estática na mesma BEAM.
+4. **HCL/OpenTofu** — provisionar o stack local (`kind`, NATS) por IaC, com
+   providers locais.
+5. **Scala e Clojure** — processamento de stream sobre o barramento NATS.
+6. **Rust via NIF** — caminho crítico, medindo o custo da travessia.
+
+Resultados já medidos que não devem ser refeitos:
+
+- 700 mil conexões, 3.783 bytes cada, num nó BEAM;
+- caos: matar 210 mil converge em 8,9 s, supervisor sobrevive, `Stats`
+  reinicia em 5,83 ms;
+- difusão particionada ~3× a serial, custando +7 % de memória por conexão;
+- socket WebSocket real: 7,1 KB por conexão, 1,9× o processo BEAM;
+- buffers de 1 KiB economizam 35 % contra os 4 KiB padrão das bibliotecas.
