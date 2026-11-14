@@ -26,7 +26,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 |---|---|---|---|---|
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **C e Rust completos.** 4 configuracoes × 3 CPUs com contadores de hardware, chamada indireta (CALLI) pedida pelo P02, 54/54 na compatibilidade cruzada, CI 9/9. C++/Zig/Assembly pendentes |
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Compilador completo, com closures.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 testes nas 3 VMs do P01. Portes e provas pendentes |
-| P03 | `otp-mesh` | Plataforma distribuída de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ⬜ scaffold |
+| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | 🟨 **Nucleo OTP completo e medido:** 700 mil conexoes supervisionadas em 2,3 GB, 3.534 bytes cada; caos mata 210 mil e o supervisor sobrevive. Ambiente 100% livre, 11/11. Demais linguagens pendentes |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
@@ -69,12 +69,33 @@ projeto publicado:
   bastaram. O CI do P02 clona e compila o P01 a cada push para manter isso
   verificado.
 
+### P03 — otp-mesh
+
+- **700 mil processos supervisionados em 2,3 GB**, num notebook cujo WSL2 vê
+  3,8 GB. Custo estável em 3.534 bytes por conexão de mil a 700 mil: sem
+  degradação superlinear. A minha própria estimativa na revisão de viabilidade
+  era "~50 mil" — **14 vezes abaixo** do medido.
+- **A árvore de supervisão aguenta falha em massa.** Matando 210 mil conexões
+  de uma vez, o supervisor é o mesmo processo depois, e o processo
+  `:permanent` de estatísticas volta em 5,83 ms com a contagem correta, relida
+  do registro.
+- **Ambiente com zero recursos pagos**, 14 ferramentas, 11/11 no teste de
+  fumaça — incluindo um cluster Kubernetes real. Quatro escolhas para evitar
+  armadilha de licença: Docker Engine (não Desktop), OpenTofu (não
+  Terraform/BUSL), NATS (não Kafka/Redpanda) e providers locais (nuvem pede
+  cartão).
+
 ### E o que não deu certo
 
 Três versões da conclusão principal do P01 foram publicadas e corrigidas
 conforme novas máquinas apareceram, e o `git log` mostra as três. No P02, dois
 testes nasceram errados e um bug de alocação de slot foi pego ao escrever o
-comentário que explicava por que ele não existia. Isso também é parte do que o
+comentário que explicava por que ele não existia.
+
+E o P03 encontrou **o mesmo modo de falha quatro vezes**: harness de benchmark,
+injetor de caos, provisionador e verificador — todos redirecionavam a saída e
+ignoravam o código de retorno. Conhecer um modo de falha não imuniza contra
+ele; o que imuniza é a ferramenta reclamar alto. Isso também é parte do que o
 portfólio demonstra.
 
 ## Por onde começar a ler
