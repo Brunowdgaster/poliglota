@@ -129,6 +129,40 @@ Esta é a tabela que decide o P05 e o P13:
 Contas gratuitas a criar, no total: **4** — SAS OnDemand, SAP BTP Trial,
 Salesforce Developer, Google Colab. Nenhuma pede cartão.
 
+## Lacunas desta revisão, corrigidas
+
+Três pontos que a primeira versão deste documento não tratou.
+
+### Terraform sem nuvem — omissão da primeira versão
+
+O P03 foi marcado viável com HCL na lista, sem dizer como. **Provisionar nuvem
+de verdade exige cartão de crédito**: AWS, GCP, Azure e Oracle pedem cartão
+mesmo nas camadas gratuitas. Isso não estava declarado, e era uma falha da
+revisão.
+
+A saída legítima é Terraform com **providers locais**: `docker`, `kubernetes`
+(apontando para o `kind`), `local_file`, `random`, `tls`. É HCL real — estado,
+plano, módulos, grafo de dependências, `for_each`, variáveis — só não cria VM
+em datacenter. Para demonstrar a linguagem e o modelo declarativo, é
+suficiente; e o README do P03 deve dizer exatamente isso em vez de deixar
+implícito que houve provisionamento de nuvem.
+
+Vale para qualquer projeto do plano: **nada aqui depende de conta paga em
+nuvem.**
+
+### Celular Android físico vale mais que o emulador
+
+O emulador do Android consome 2–4 GB de RAM e disputa o hipervisor com o WSL2 —
+em 8 GB, isso aperta. Um aparelho Android com depuração USB ativada elimina
+esse custo inteiro e ainda dá teste em hardware real, que vale mais que
+emulador. Se houver um disponível, o P08 fica bem mais confortável.
+
+### A trial do SAP BTP é restrição de agenda, não só de acesso
+
+São **90 dias**. O módulo ABAP do P13 precisa ser feito dentro da janela, o que
+significa só criar a conta quando o projeto estiver prestes a começar. Criar
+agora e usar depois não funciona.
+
 ## Ajustes necessários no plano
 
 Quatro mudanças concretas no ROADMAP, todas por restrição real e não por
@@ -191,7 +225,14 @@ Para não deixar só a lista de limites:
 ## Conclusão
 
 **Custo em dinheiro: R$ 0.** Nenhum projeto exige compra de software ou de
-hardware.
+hardware, e **nenhum exige cartão de crédito** — o Terraform é demonstrado com
+providers locais justamente para não depender de conta de nuvem.
+
+**Nenhum dos 14 projetos fica impossível.** O que existe são componentes
+bloqueados dentro de projetos viáveis: Blueprints (risco de hardware),
+desenvolvimento interativo de iOS (sem Mac), a escala do P03 (RAM), e duas
+linguagens sem caminho gratuito (Stata, VBA). De ~130 linguagens da lista
+original, **~127 têm caminho verificado**.
 
 O preço real é em **tempo e em escopo**: 8 GB de RAM forçam rodar um stack por
 vez, a ausência de Mac torna o app iOS guiado por CI em vez de interativo, e
