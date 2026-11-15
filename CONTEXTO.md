@@ -22,7 +22,8 @@ e trade-off escrito — não como pasta com *hello world*.
 Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **17**);
+- **profundidade real** em um núcleo de linguagens (hoje **20**, contadas por
+  ferramenta e não à mão — ver abaixo);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
 Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
@@ -53,6 +54,16 @@ profundidade é descoberto na primeira pergunta técnica.
 | Ada | P01 | porte da VM, 9/9, subtipos restritos e `Unchecked_Conversion` |
 | OCaml | P02 | porte do verificador, **23/23 byte a byte**, 604 linhas |
 | F# | P02 | porte do verificador, 23/23, **496 linhas** — menos que o Haskell |
+| Perl | P12 | `lint_medicoes.pl`: número publicado sem dispersão ao lado |
+| AWK | P12 | `estatistica.awk`: faixa, dispersão e a regra de decisão |
+| Lua | P12 | `cobertura.lua`: esta própria contagem |
+
+> A contagem agora é feita por `p12-toolbelt/lua/cobertura.lua`, não à mão.
+> Ela corrigiu meu número na primeira execução — eu vinha dizendo 17, e são 20,
+> porque eu não contava as três ferramentas que acabara de escrever. E resolve
+> a **sobreposição**: Rust conta uma vez no total e duas na soma por projeto.
+>
+>     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
 ### Auxiliares genuinamente usadas: 4
 
