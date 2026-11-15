@@ -267,7 +267,7 @@ LibreOffice Basic é outro dialeto).
 | codec tipado | Gleam | 3 erros movidos para o compilador; `@external` sem FFI |
 | codec como NIF | Rust | travessia **~30 ns**; Elixir ganha até 4 KiB, resto no ruído |
 | concorrência | Scala + JDK 25 | Loom: **1.323 B** vs 2.732 B da BEAM, mas **inanição total** sob carga de CPU (BEAM degrada 21x) |
-| contenção | Clojure | `agent` **empata** com GenServer (534 k vs 493 k); sem coordenação perde 70% em silêncio |
+| contenção | Clojure | `agent` × GenServer: **não determinado** (faixas se sobrepõem); sem coordenação perde 70% em silêncio |
 | infraestrutura | HCL + OpenTofu | 20 asserções: convergência, idempotência, desvio, grafo, destroy |
 
 **Protocolo da ponte verificado em 4 linguagens** contra `protocolo/vetores.txt`:
@@ -283,11 +283,25 @@ Dois achados que vieram de números implausíveis, não de hipóteses:
   811 mil mensagens. `message_queue_data: :off_heap` rende 254x sob contenção e
   custa 2,8x sem ela. `call` é auto-limitado — dá contrapressão de graça.
 
+**Auditoria completa das medições** em `p03-otp-mesh/docs/AUDITORIA.md`: toda
+afirmação numérica do README revisada, **7 corrigidas**. Parte das medições de
+sessões anteriores rodou com carga de fundo na máquina (jogo e navegador no
+Windows, que o `/proc/loadavg` do WSL2 não vê). Nenhuma correção inverteu
+conclusão qualitativa; quatro mudaram o número, uma virou "não determinado", uma
+ficou mais forte, e uma revelou número **condicional** sem a condição
+declarada.
+
+O instrumento ganhou `bench/calibra.sh` (detecta máquina ocupada por tempo de
+laço fixo), o modo `--esperar` (distingue "meu benchmark aqueceu a CPU" de
+"há carga externa") e a **regra de sobreposição de faixas**.
+
 Outros resultados medidos:
 
 - 700 mil conexões, 3.783 bytes cada, num nó BEAM;
-- caos: matar 210 mil converge em 8,9 s, supervisor sobrevive, `Stats`
-  reinicia em 5,83 ms;
+- caos: o supervisor sobrevive e o `Stats` volta em milissegundos com a
+  contagem relida do `Registry`. Os **tempos** foram refeitos na auditoria:
+  convergência de 1,8–4,6 s para 60 mil mortes (dispersão 155%), e reinício do
+  `Stats` **condicional** — 6 ms em sistema quieto, 19–37 ms sob agitação;
 - difusão particionada ~3× a serial, custando +7 % de memória por conexão;
 - socket WebSocket real: 7,1 KB por conexão, 1,9× o processo BEAM;
 - buffers de 1 KiB economizam 35 % contra os 4 KiB padrão das bibliotecas.

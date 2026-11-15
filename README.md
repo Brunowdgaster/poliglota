@@ -26,7 +26,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 |---|---|---|---|---|
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **7 de 12: C e Rust completos, mais 5 portes** (Nim, Odin, D, V, Ada) em 9/9 contra o mesmo `.fbc`. Tabela comparativa de linhas × build × execucao × RSS; o Nim fez em **255 linhas** e o **D tem GC e ficou agrupado com os que nao tem**. 54/54 na compatibilidade cruzada, CI 10/10. C++/Zig/Assembly pendentes |
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **Compilador completo, com closures.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 testes nas 3 VMs do P01. Portes e provas pendentes |
-| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ✅ **Completo, 8/8 linguagens, CI 9/9.** 700 mil conexoes supervisionadas a 3.534 B cada; protocolo verificado byte a byte em 4 linguagens; travessia de NIF em ~30 ns; Loom custa 1.323 B mas sofre inanicao total onde a BEAM degrada 21x; `agent` de Clojure empata com GenServer; 20 asseroes de IaC. Ambiente 100% livre |
+| P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ✅ **Completo, 8/8 linguagens, CI 9/9.** 700 mil conexoes supervisionadas a 3.534 B cada; protocolo verificado byte a byte em 4 linguagens; travessia de NIF em ~30 ns; Loom custa 1.323 B mas sofre inanicao total onde a BEAM degrada 21x; `agent` de Clojure fica na mesma ordem de grandeza do GenServer; 20 asseroes de IaC. **Auditoria completa das medicoes em docs/AUDITORIA.md: 5 corrigidas.** Ambiente 100% livre |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
 | P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
@@ -77,7 +77,7 @@ projeto publicado:
   era "~50 mil" — **14 vezes abaixo** do medido.
 - **A árvore de supervisão aguenta falha em massa.** Matando 210 mil conexões
   de uma vez, o supervisor é o mesmo processo depois, e o processo
-  `:permanent` de estatísticas volta em 5,83 ms com a contagem correta, relida
+  `:permanent` de estatísticas volta em milissegundos com a contagem correta, relida
   do registro.
 - **Um socket real custa 1,9x um processo BEAM: 7,1 KB contra 3,8 KB.** O
   gateway WebSocket em Go, escrito sem dependências para que os buffers fossem
