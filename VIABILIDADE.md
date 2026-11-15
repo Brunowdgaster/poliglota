@@ -1,10 +1,27 @@
 # Viabilidade: esta máquina consegue fazer os 14 projetos de graça?
 
-**Resposta curta: 12 dos 14 sem ressalva, 2 com ressalva real, custo R$ 0.**
-Duas linguagens da lista original não têm caminho gratuito e estão marcadas
-para exclusão justificada.
+**Resposta curta: sim, os 14 projetos são executáveis por R$ 0.** Uma única
+linguagem da lista original — o **Stata** — não tem caminho gratuito, e ela
+está em 1 de 14 projetos como 1 de 11 linguagens.
 
-Documento verificado por inspeção da máquina em 2026-11-13, não por estimativa.
+Verificado por inspeção da máquina em 2026-11-13, revisado em 2026-11-15 com o
+que a execução descobriu.
+
+> ### O que mudou desde a primeira revisão
+>
+> Esta página dizia "duas linguagens sem caminho gratuito: Stata e VBA". O
+> **VBA foi resolvido**: `p12-toolbelt/basic/Cobertura.bas` está feito em
+> **LibreOffice Basic** (MPL-2.0), rotulado como dialeto diferente e com 7
+> testes. Sobrou o Stata.
+>
+> E apareceu uma lacuna que esta página **não previa**: nenhum Smalltalk
+> utilizável está empacotado no Ubuntu 26.04. O `gnu-smalltalk` saiu do
+> Debian, e `squeak-vm` + `etoys` instalam mas a imagem do Etoys ignora o
+> `.st`. Resolvido com **Pharo 11** (MIT, por download) — e a lição é que
+> "existe versão livre" e "está empacotado" são afirmações diferentes.
+>
+> **A restrição que resta não é dinheiro: é hardware**, e ela se chama Unreal
+> Engine. Ver [a restrição 3](#3-unreal-engine--a-restrição-mais-dura).
 
 ## A máquina
 
@@ -91,16 +108,16 @@ viabilidade é hipótese; ambiente montado é medição.
 | P02 | forge-lang | ✅ viável | ~25 GB de disco para GHC, Coq, Isabelle, Lean, .NET. Isabelle quer 4–8 GB de RAM: rodar sozinho |
 | P03 | otp-mesh | ⚠️ **com ressalva** | "milhões de conexões" não cabe em 3,8 GB. **Ambiente montado e verificado**: 11/11 toolchains compilam e rodam, incluindo um cluster `kind` real |
 | P04 | webstack | ✅ viável | Node, PHP, Ruby, Elm, PureScript, Dart — todos leves |
-| P05 | datalab | ⚠️ **com ressalva** | SAS, MATLAB e Wolfram têm caminho gratuito; **Stata não tem** |
+| P05 | datalab | ⚠️ **com ressalva** | SAS, MATLAB e Wolfram têm caminho gratuito; **Stata não tem** — e `gretl` cobre o terreno, ver abaixo |
 | P06 | gpu-arena | ✅ viável | CUDA local na MX150. **Triton exige sm_70**, a MX150 é sm_61 → Colab |
 | P07 | engine | ⚠️ risco real | C++/Godot/Lua tranquilos. **Unreal 5 em 8 GB + MX150 2 GB é inviável** |
 | P08 | tri-mobile | ⚠️ **com ressalva** | Android local ok; **iOS exige macOS** → só via CI |
 | P09 | silicon | ✅ viável | Verilator, GHDL, Yosys, toolchain RISC-V: tudo livre e só CPU. Placa FPGA é opcional |
 | P10 | query-lab | ✅ viável | Postgres, Oracle XE, SQL Server Developer, Neo4j, Fuseki — todos gratuitos, **um por vez** |
 | P11 | chain | ✅ viável | Foundry, Hardhat, Aptos/Sui, Starknet, Solana: tudo local e gratuito |
-| P12 | toolbelt | ⚠️ ajuste | Tudo gratuito **exceto VBA**: não há Office nesta máquina |
+| P12 | toolbelt | ✅ **completo** | 11 linguagens. O VBA virou **LibreOffice Basic**, livre e rotulado como dialeto diferente |
 | P13 | legacy-bridge | ✅ viável | Caminho gratuito para **todos**, incluindo RPG e ABAP. Ver tabela abaixo |
-| P14 | first-code | ✅ viável | Scratch, Blockly, Logo (FMSLogo), Smalltalk (Pharo), Pascal: todos livres |
+| P14 | first-code | ✅ **completo** | 5 linguagens. Logo saiu em UCBLogo sob `xvfb`, e o Smalltalk em Pharo 11 por download — o apt não tem nenhum |
 
 ## As quatro restrições que realmente limitam
 
@@ -174,7 +191,8 @@ Esta é a tabela que decide o P05 e o P13:
 | MATLAB | **Octave** local + MATLAB Online Basic (20 h/mês) | ✅ permanente |
 | Wolfram | **Wolfram Engine** free for developers | ✅ permanente |
 | SAS | **SAS OnDemand for Academics** (nuvem, cadastro) | ✅ permanente |
-| **Stata** | **não existe** — sem edição gratuita, sem comunidade, sem trial aberto | ❌ |
+| **Stata** | **não existe** — sem edição gratuita, sem comunidade, sem trial aberto. Mas ver `gretl` abaixo | ❌ |
+| **gretl / hansl** | **no apt** (`gretl` 2026a, GPL). Econometria dirigida por comando, centrada em conjunto de dados: o terreno do Stata, em outra linguagem | ✅ permanente |
 | ABAP | **SAP BTP Trial**, ambiente ABAP no navegador | ⏳ 90 dias |
 | RPG | **PUB400.com** — sistema IBM i público e gratuito para hobbistas, com compiladores RPG | ✅ permanente |
 | PL/I | **Iron Spring PL/I**, compilador gratuito para Linux | ✅ permanente (subset) |
@@ -182,7 +200,8 @@ Esta é a tabela que decide o P05 e o P13:
 | Delphi | **Free Pascal + Lazarus**, ou Delphi Community Edition | ✅ permanente |
 | COBOL | **GnuCOBOL** | ✅ permanente |
 | VB.NET / C# | **.NET SDK** | ✅ permanente |
-| **VBA** | Office não instalado. LibreOffice Basic é **outro dialeto**, não VBA | ⚠️ |
+| **VBA** | Office não instalado e é pago. **Feito em LibreOffice Basic** (`libreoffice-core` no apt), que é **outro dialeto** e está rotulado como tal | ✅ resolvido |
+| **Smalltalk** | `gnu-smalltalk` saiu do apt e a imagem do Etoys ignora o `.st`. **Feito em Pharo 11** (MIT), por download, autocontido | ✅ resolvido |
 | Mojo | **Modular SDK**, gratuito para desenvolvimento (Linux/WSL2) | ✅ permanente |
 
 Contas gratuitas a criar, no total: **4** — SAS OnDemand, SAP BTP Trial,
@@ -239,6 +258,32 @@ a ser **~50 mil conexões num nó**, com o número real medido e publicado, mais
 aritmética de quanto seria preciso para escalar. Demonstra a mesma competência:
 a técnica de back-pressure e supervisão não muda com a escala — e um número
 medido vale mais que um número aspiracional.
+
+### O Stata dá para contornar? Sim, de três formas, e nenhuma é "fingir"
+
+A pergunta certa não é "existe Stata grátis" — não existe — mas **o que se
+perde sem ele**, e isso depende do que o P05 se propõe a mostrar.
+
+O P05 é *"o mesmo modelo estatístico em N linguagens"*. Cada linguagem é um
+ponto de comparação independente: nenhuma depende de outra, e nenhuma parte do
+projeto é construída *em cima* do Stata. Tirar uma remove uma coluna da
+tabela.
+
+| saída | o que custa | o que entrega |
+|---|---|---|
+| **1. excluir e justificar** | o P05 vai de 11 para 10 linguagens | honestidade total, custo zero |
+| **2. `gretl` com a linguagem `hansl`** | uma linguagem nova a aprender e documentar | cobre o **terreno** do Stata: econometria dirigida por comando, centrada em conjunto de dados, com `ols`, `var`, `summary` — e é GPL, está no apt |
+| **3. só a sintaxe, sem executar** | nada, e é o que **não** se deve fazer | um arquivo `.do` que ninguém roda é exatamente o tipo de alegação que este portfólio existe para não fazer |
+
+**A recomendação é a 2, com a 1 como fallback declarado**, e pelo mesmo
+raciocínio que resolveu o VBA: o LibreOffice Basic não é VBA, e por isso está
+*rotulado* como LibreOffice Basic. O `hansl` não é Stata, e entraria rotulado
+como `hansl`.
+
+O que o P05 **perde** nesse arranjo, e que deve ficar escrito no README dele:
+a sintaxe exata do Stata não é demonstrada. O que ele **ganha**: o paradigma
+de script econométrico dirigido por comando, executado e verificado como todo
+o resto.
 
 ### P05 — excluir Stata, com justificativa escrita
 
