@@ -22,7 +22,7 @@ e trade-off escrito — não como pasta com *hello world*.
 Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje 10);
+- **profundidade real** em um núcleo de linguagens (hoje **15**);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
 Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
@@ -46,6 +46,11 @@ profundidade é descoberto na primeira pergunta técnica.
 | Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida |
 | Clojure | P03 | atom/ref/agent contra GenServer; 2 patologias achadas |
 | HCL | P03 | OpenTofu, 20 asserções verificando 5 propriedades |
+| Nim | P01 | porte da VM em **255 linhas**, 9/9, ORC do runtime |
+| Odin | P01 | porte da VM, 9/9, `virtual.Arena` e `context.allocator` |
+| D | P01 | porte da VM, 9/9, `SumType` exaustivo |
+| V | P01 | porte da VM, 9/9, handle+arena imposto pelo tipo-soma |
+| Ada | P01 | porte da VM, 9/9, subtipos restritos e `Unchecked_Conversion` |
 
 ### Auxiliares genuinamente usadas: 4
 
@@ -89,7 +94,12 @@ mais `p04-*` a `p14-*` vazias.
 
 ## 4. A ordem de trabalho decidida
 
-**P03 está terminado** (8/8 linguagens, CI 9/9). A ordem abaixo segue dele.
+**P03 terminado** (8/8, CI 9/9) e **camada 1 do P01 entregue** (5 portes, CI
+10/10). Linguagens com profundidade real: 10 → **15**.
+
+A ordem de trabalho mudou depois de uma correção do usuário, registrada na
+seção 9: cortar **por camada de custo, atravessando os projetos**, e não
+projeto por projeto em profundidade.
 
 ~~Primeiro: terminar o P03.~~ Faltavam 6 linguagens (Erlang, Gleam, Rust, Scala,
 Clojure, HCL) e a ponte entre o gateway em Go e o núcleo em Elixir, que o
