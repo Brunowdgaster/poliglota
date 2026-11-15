@@ -22,7 +22,7 @@ e trade-off escrito — não como pasta com *hello world*.
 Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **15**);
+- **profundidade real** em um núcleo de linguagens (hoje **17**);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
 Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
@@ -51,6 +51,8 @@ profundidade é descoberto na primeira pergunta técnica.
 | D | P01 | porte da VM, 9/9, `SumType` exaustivo |
 | V | P01 | porte da VM, 9/9, handle+arena imposto pelo tipo-soma |
 | Ada | P01 | porte da VM, 9/9, subtipos restritos e `Unchecked_Conversion` |
+| OCaml | P02 | porte do verificador, **23/23 byte a byte**, 604 linhas |
+| F# | P02 | porte do verificador, 23/23, **496 linhas** — menos que o Haskell |
 
 ### Auxiliares genuinamente usadas: 4
 
