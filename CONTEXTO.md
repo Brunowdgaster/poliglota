@@ -22,7 +22,7 @@ e trade-off escrito — não como pasta com *hello world*.
 Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **20**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **23**, contadas por
   ferramenta e não à mão — ver abaixo);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -57,6 +57,9 @@ profundidade é descoberto na primeira pergunta técnica.
 | Perl | P12 | `lint_medicoes.pl`: número publicado sem dispersão ao lado |
 | AWK | P12 | `estatistica.awk`: faixa, dispersão e a regra de decisão |
 | Lua | P12 | `cobertura.lua`: esta própria contagem |
+| Raku | P12 | `gramatica_fasm.raku`: **9/9 byte a byte** contra o desmontador em C |
+| Tcl | P12 | `dirige_repl.exp`: 12 interações em dois REPLs, com Expect |
+| Nix | P12 | `flake.nix`: 4 devShells; achou um bug que só um 2º ambiente acha |
 
 > A contagem agora é feita por `p12-toolbelt/lua/cobertura.lua`, não à mão.
 > Ela corrigiu meu número na primeira execução — eu vinha dizendo 17, e são 20,
