@@ -291,13 +291,23 @@ Elixir, Go, Gleam e Rust.
 
 Dois achados que vieram de números implausíveis, não de hipóteses:
 
-- `write_concurrency` do ETS fragmenta **por chave**: na mesma chave, adicionar
-  núcleos deixa **200x mais lento** (3,6 M/s com 1 worker, 17 mil com 8).
-  Chaves separadas escalam para 24,1 M/s — **1.400x** de diferença na mesma
-  tabela;
+- `write_concurrency` do ETS fragmenta **por chave**: na mesma chave,
+  adicionar núcleos deixa **mais lento**, e chaves separadas escalam — **três
+  ordens de grandeza** de diferença na mesma tabela. Medido com repetições em
+  `bench/contencao.exs`;
 - `cast` mais lento que `call` é **falta de contrapressão**: a caixa chegou a
-  811 mil mensagens. `message_queue_data: :off_heap` rende 254x sob contenção e
-  custa 2,8x sem ela. `call` é auto-limitado — dá contrapressão de graça.
+  811 mil mensagens. `message_queue_data: :off_heap` rende **~66x** sob
+  contenção (3 repetições) e custa 2,8x sem ela. `call` é auto-limitado — dá
+  contrapressão de graça.
+
+> **Estas duas linhas estavam defasadas**, e quem achou foi
+> `p12-toolbelt/perl/lint_medicoes.pl` rodando sobre este arquivo. Elas
+> carregavam **1.400x** (ETS) e **254x** (`off_heap`), que são os números
+> **pré-auditoria** — eu corrigi o README do P03 para ~912x e ~66x e esqueci o
+> índice.
+>
+> É exatamente o caso de uso da ferramenta: número publicado sem dispersão ao
+> lado é número que ninguém revisita.
 
 **Auditoria completa das medições** em `p03-otp-mesh/docs/AUDITORIA.md`: toda
 afirmação numérica do README revisada, **7 corrigidas**. Parte das medições de

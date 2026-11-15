@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Este repositorio e o indice do portfolio: README, ROADMAP, CONTEXTO,
+# VIABILIDADE. Nao tem codigo, e por isso nao tinha CI.
+#
+# A falta foi achada por uma ferramenta do p12-toolbelt (pwsh/Audita-Repos.ps1
+# e o par em bash/), que audita o minimo de cada repositorio. Este arquivo e a
+# resposta: documentacao de indice TEM o que verificar.
+#
+#   1. os numeros publicados aqui tem dispersao ou metodo ao lado?
+#   2. a contagem de linguagens declarada confere com o ROADMAP?
+#
+# As duas verificacoes vem do toolbelt, que e clonado -- do mesmo jeito que o
+# p02 clona o p01 para os testes de ponta a ponta.
+
+jobs:
+  indice:
+    runs-on: ubuntu-latest
+    name: higiene do indice
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: toolchains
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lua5.4
+          perl -e 'print "perl $]\n"'
+          lua5.4 -e 'print(_VERSION)'
+
+      - name: clonar o toolbelt
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/Brunowdgaster/toolbelt /tmp/toolbelt
+          ls /tmp/toolbelt/perl/lint_medicoes.pl
+
+      # Orcamento 2: as duas celulas da tabela de projetos resumem numeros de
+      # outros repositorios e apontam para la. Esta declarado, e nao silenciado
+      # -- se um terceiro aparecer, o CI acusa.
+      - name: numeros publicados tem metodo ao lado
+        run: |
+          set -euo pipefail
+          perl /tmp/toolbelt/perl/lint_medicoes.pl --orcamento 2 \
+            README.md CONTEXTO.md ROADMAP.md VIABILIDADE.md
+
+      # O registro do toolbelt declara quantos itens o ROADMAP tem por
+      # projeto. Se o plano mudar aqui e o registro nao, isto acusa.
+      - name: a contagem de linguagens confere com o ROADMAP
+        run: |
+          set -euo pipefail
+          lua5.4 /tmp/toolbelt/lua/cobertura.lua \
+            /tmp/toolbelt/lua/registro.lua --roadmap ROADMAP.md

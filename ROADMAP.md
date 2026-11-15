@@ -6,6 +6,7 @@ Meta: um conjunto de projetos que cobre a lista inteira de linguagens citada, de
 
 Existem duas formas de "cobrir 130 linguagens":
 
+<!-- lint-medicao: ignorar — prosa do plano, sem número medido -->
 1. **130 pastas com hello-world.** Cobre a lista, prova zero. Qualquer revisor identifica em 30 segundos.
 2. **14 projetos reais onde cada linguagem entra por um motivo técnico**, com benchmark, trade-off escrito e CI que compila tudo. Isso prova engenharia, não só sintaxe.
 
@@ -44,6 +45,7 @@ p14-first-code/
 ### P01 — `metal-vm` : VM de bytecode + runtime de baixo nível
 
 **O que é:** uma máquina virtual de pilha (tipo Lua/CPython simplificada) com GC, JIT simples e loop de interpretação otimizado. Implementada 3x para comparação direta.
+<!-- lint-medicao: ignorar — "3x" aqui é CONTAGEM (três vezes), não razão -->
 
 **Linguagens:** C, C++, Rust, Zig, Assembly x86-64, Assembly ARM64, Assembly RISC-V, Nim, Odin, D, V, Ada, Makefile, CMake, Nix
 
@@ -161,6 +163,8 @@ p14-first-code/
 
 **Linguagens:** Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, VBA, Makefile, Nix, Dockerfile, YAML, HCL
 
+<!-- lint-medicao: ignorar — "10x menos caracteres" é a INTENÇÃO do plano,
+     não uma medição; quando for medido, vai para o README do p12 -->
 **Por que cada uma entra:** Bash/PowerShell é o par POSIX↔Windows (mesmo script, duas culturas); AWK faz o one-liner de log que vence Python em 10x menos caracteres; Perl faz o regex pesado; Raku mostra a evolução (grammars); Groovy é Jenkins/Gradle real; Tcl é Expect/automação interativa; AutoHotkey e VBA são automação de desktop/Office — desprezados e extremamente empregáveis; Nix garante reprodutibilidade de todo o portfólio.
 
 **Entregável que impressiona:** um `nix develop` que levanta o ambiente de *todos* os 14 projetos.

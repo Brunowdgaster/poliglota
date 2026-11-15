@@ -110,6 +110,8 @@ viabilidade é hipótese; ambiente montado é medição.
 
 | Projeto | O que não cabe | Mitigação |
 |---|---|---|
+<!-- lint-medicao: ignorar — "15 MB" e "~50 k" são orçamento de recurso,
+     não resultado medido -->
 | P03 | k8s local + cluster BEAM + Kafka ao mesmo tempo | `kind` com 1 nó, **NATS** em vez de Kafka (Apache-2.0, 15 MB), e **escalar a meta para ~50 k conexões** |
 | P05 | Spark em cluster | Spark em modo local com 2 executores |
 | P10 | Oracle XE + SQL Server + Neo4j simultâneos | Um contêiner por vez, via `docker compose --profile` |
