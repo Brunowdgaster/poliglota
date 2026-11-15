@@ -33,9 +33,9 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P07 | `engine` | Motor próprio vs. Godot vs. Unreal | C++, C#, Lua, GDScript, Blueprints, HLSL, GLSL | ⬜ scaffold |
 | P08 | `tri-mobile` | Mesmo app: Android nativo, iOS nativo, Flutter | Kotlin, Java, Swift, Objective-C, Dart | ⬜ scaffold |
 | P09 | `silicon` | CPU RISC-V em Verilog rodando o VM do P01 | Verilog, SystemVerilog, VHDL, Assembly, C, Rust, MicroPython, Tcl | ⬜ scaffold |
-| P10 | `query-lab` | Mesmo domínio em relacional, grafo e RDF | SQL, PL/pgSQL, PL/SQL, T-SQL, Cypher, SPARQL, GraphQL | ⬜ scaffold |
+| P10 | **[query-lab](https://github.com/Brunowdgaster/query-lab)** | Mesmo dominio em relacional, grafo e RDF | SQL, PL/pgSQL, PL/SQL, T-SQL, Cypher, SPARQL, GraphQL, Python | 🟨 **3 de 8, 12 testes, CI 1/1.** Uma pergunta -- "quem esta a ate 3 saltos de amizade de Ana?" -- que e UMA EXPRESSAO em Cypher, um CTE recursivo com controle de ciclo a mao em SQL, e **inexpressavel em GraphQL**. O mesmo `.sql` roda sem uma linha de diferenca em SQLite e PostgreSQL, o que torna a comparacao de MODELO honesta. E os quatro `ERRCODE` que eu escolhi colidiam com os do PostgreSQL: **`P0004` e `assert_failure`, que `WHEN OTHERS` se recusa a capturar** -- e os testes passavam em tres das quatro colisoes, porque conferiam o mesmo codigo errado que a procedure levantava |
 | P11 | `chain` | Mesmo contrato em Solidity e Vyper, fuzzing diferencial | Solidity, Vyper, Move, Cairo, Rust | ⬜ scaffold |
-| P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, VBA, Nix | 🟨 **6 de 10, 29 testes, CI 2/2.** Cada ferramenta resolve um problema que o portfolio TEVE. A grammar em Raku da **9/9 byte a byte** contra o desmontador em C do P01 -- e achou que o formato aceita hexadecimal, o que eu nao sabia. O Expect achou que o OCaml emite bytes DIFERENTES num terminal e num pipe. E o flake do Nix achou que o padrao de um teste meu quebrava entre OCaml 5.3 e 5.4 -- **um segundo ambiente encontra as suposicoes que o primeiro nunca questiona** |
+| P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, Nix | ✅ **10 de 10, 51 testes (42 POSIX + 9 Windows), CI 3/3.** O AutoHotkey le o desktop do Windows e **nomeia** o que contamina uma medicao -- a primeira execucao pegou `chrome.exe` a 103% com um video no titulo, que e literalmente o cenario que corrompeu uma medicao do P03. O **VBA e o primeiro item genuinamente bloqueado do portfolio**: exige Office, que e pago. Cada ferramenta resolve um problema que o portfolio TEVE. A grammar em Raku da **9/9 byte a byte** contra o desmontador em C do P01 -- e achou que o formato aceita hexadecimal, o que eu nao sabia. O Expect achou que o OCaml emite bytes DIFERENTES num terminal e num pipe. E o flake do Nix achou que o padrao de um teste meu quebrava entre OCaml 5.3 e 5.4 -- **um segundo ambiente encontra as suposicoes que o primeiro nunca questiona** |
 | P13 | `legacy-bridge` | COBOL → C# com equivalência provada por testes | COBOL, Delphi, VB.NET, C#, PL/I, RPG, ABAP, Apex | ⬜ scaffold |
 | P14 | `first-code` | Currículo de programação visual | Scratch, Blockly, Logo, Smalltalk, Pascal | ⬜ scaffold |
 
@@ -121,6 +121,11 @@ varia brutalmente entre projetos. A ordem revista está em
 [CONTEXTO.md](CONTEXTO.md#4-a-ordem-de-trabalho-decidida): terminar o P03 e
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
+Executado até aqui: **P12 completo (10/10)** e **P10 em 3 de 8** — de 5
+linguagens para 30. O P10 ficou parcial de propósito: Cypher, SPARQL e GraphQL
+são baratos e vêm a seguir, enquanto T-SQL e PL/SQL exigem imagens de 1,5 GB e
+2,5 GB e entram por último.
+
 Ordem original, mantida para registro:
 
 | Fase | Projetos | Racional |
@@ -142,10 +147,22 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-14: **5 linguagens com implementação profunda**
-(Rust, Haskell, C, Elixir, Go) de ~130 planejadas, em 3 projetos publicados de
-14. Mais 2 linguagens criadas do zero (`.fasm` e `forge`) e 4 auxiliares
-genuinamente usadas.
+Resumo do estado em 2026-11-15: **30 linguagens distintas** em **5 projetos
+publicados** de 14, todos com CI verde. Mais 2 linguagens criadas do zero
+(`.fasm` e `forge`).
+
+E o nível de uso é declarado, porque 30 linguagens "usadas" não significa 30
+dominadas:
+
+| nível | quantas | o que significa |
+|---|---|---|
+| **implementação completa** | 12 | uma VM inteira, um verificador de tipos ou uma plataforma distribuída escrita do zero — C, Rust, Nim, Odin, D, V, Ada, Haskell, OCaml, F#, Elixir, Go |
+| **ferramenta real, em produção no portfólio** | 13 | resolve um problema que o portfólio TEVE, e roda no CI — Perl, AWK, Lua, Raku, Tcl, Nix, Groovy, PowerShell, Bash, AutoHotkey, Python, SQL, PL/pgSQL |
+| **uso genuíno, escopo menor** | 5 | Erlang, Gleam, Scala, Clojure, HCL |
+
+A separação existe porque é o que distingue este portfólio de uma lista de
+"linguagens que já toquei". Cada README declara o nível daquele projeto, e a
+contagem sai de `lua/registro.lua` no p12-toolbelt, não de estimativa.
 
 ## Viabilidade nesta máquina
 
