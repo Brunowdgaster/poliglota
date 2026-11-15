@@ -5,7 +5,24 @@ Documento de retomada. Se a sessão foi reiniciada e o histórico se perdeu,
 convenções já estabelecidas e a ordem de trabalho decidida. Nada aqui precisa
 ser redescoberto.
 
-Última atualização: 2026-11-14.
+> ### ⚠ Pendência que atravessa sessões: desinstalar o ambiente
+>
+> O portfólio instalou cerca de **11 GB** de compiladores, interpretadores,
+> imagens Docker e a *store* do Nix. **Nada disso está no git** — binários e
+> *toolchains* não são código do projeto.
+>
+> O registro completo, com data de instalação, licença de cada item e os
+> comandos de remoção, está em **[AMBIENTE.md](AMBIENTE.md)**.
+>
+> **Isto é uma tarefa pendente do projeto**, decidida pelo autor: quando os 14
+> projetos estiverem prontos, rodar a seção *Desinstalando* daquele arquivo.
+> Não remover antes — cada projeto depende do seu *toolchain* para o
+> `verifica.sh` passar.
+>
+> Dois itens não devem ser removidos pela lista: `sqlmap` e `ffuf` foram
+> instalados antes deste portfólio e não pertencem a ele.
+
+Última atualização: 2026-11-15.
 
 ---
 
@@ -219,6 +236,10 @@ Outras lições já pagas:
 ---
 
 ## 7. Ambiente da máquina — fatos verificados
+
+> **O inventário do que foi instalado, e como desinstalar, está em
+> [AMBIENTE.md](AMBIENTE.md).** Esta seção descreve as *limitações* da
+> máquina; aquela descreve o que foi *acrescentado* a ela.
 
 | | |
 |---|---|

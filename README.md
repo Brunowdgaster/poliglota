@@ -35,9 +35,9 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P09 | `silicon` | CPU RISC-V em Verilog rodando o VM do P01 | Verilog, SystemVerilog, VHDL, Assembly, C, Rust, MicroPython, Tcl | ⬜ scaffold |
 | P10 | **[query-lab](https://github.com/Brunowdgaster/query-lab)** | Mesmo dominio em relacional, grafo e RDF | SQL, PL/pgSQL, PL/SQL, T-SQL, Cypher, SPARQL, GraphQL, Python | 🟨 **6 de 8, 22 testes, CI 1/1.** Uma pergunta -- "quem esta a ate 3 saltos de amizade de Ana?" -- respondida identicamente por seis implementacoes e comparada byte a byte. Ela expoe que **cada modelo ganha num eixo diferente**: o SPARQL faz o fecho ILIMITADO que o SQL so alcanca com CTE recursivo, e **nao consegue limitar** a repeticao, porque o `{n,m}` saiu da recomendacao final -- uma afirmacao que eu tinha escrito errado e corrigi medindo. No GraphQL a pergunta e **inexpressavel**, e isso esta medido, nao alegado: o aninhamento a mao devolve 14 nos, 6 nomes e **a propria origem de volta**, contra a resposta certa de 5 pessoas. E os quatro `ERRCODE` que eu escolhi colidiam com os do PostgreSQL: **`P0004` e `assert_failure`, que `WHEN OTHERS` se recusa a capturar** -- e os testes passavam em tres das quatro colisoes, porque conferiam o mesmo codigo errado que a procedure levantava |
 | P11 | `chain` | Mesmo contrato em Solidity e Vyper, fuzzing diferencial | Solidity, Vyper, Move, Cairo, Rust | ⬜ scaffold |
-| P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, Nix | ✅ **10 de 10, 51 testes (42 POSIX + 9 Windows), CI 3/3.** O AutoHotkey le o desktop do Windows e **nomeia** o que contamina uma medicao -- a primeira execucao pegou `chrome.exe` a 103% com um video no titulo, que e literalmente o cenario que corrompeu uma medicao do P03. O **VBA e o primeiro item genuinamente bloqueado do portfolio**: exige Office, que e pago. Cada ferramenta resolve um problema que o portfolio TEVE. A grammar em Raku da **9/9 byte a byte** contra o desmontador em C do P01 -- e achou que o formato aceita hexadecimal, o que eu nao sabia. O Expect achou que o OCaml emite bytes DIFERENTES num terminal e num pipe. E o flake do Nix achou que o padrao de um teste meu quebrava entre OCaml 5.3 e 5.4 -- **um segundo ambiente encontra as suposicoes que o primeiro nunca questiona** |
+| P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, Nix | ✅ **11 de 11, 58 testes (49 POSIX + 9 Windows), CI 3/3.** O AutoHotkey le o desktop do Windows e **nomeia** o que contamina uma medicao -- a primeira execucao pegou `chrome.exe` a 103% com um video no titulo, que e literalmente o cenario que corrompeu uma medicao do P03. O **VBA e o primeiro item genuinamente bloqueado do portfolio**: exige Office, que e pago. Cada ferramenta resolve um problema que o portfolio TEVE. A grammar em Raku da **9/9 byte a byte** contra o desmontador em C do P01 -- e achou que o formato aceita hexadecimal, o que eu nao sabia. O Expect achou que o OCaml emite bytes DIFERENTES num terminal e num pipe. E o flake do Nix achou que o padrao de um teste meu quebrava entre OCaml 5.3 e 5.4 -- **um segundo ambiente encontra as suposicoes que o primeiro nunca questiona** | O **VBA foi substituido por LibreOffice Basic** (livre): `Cobertura.bas` monta a cobertura do portfolio como planilha AUDITAVEL, com `=SUM()` de verdade -- e a macro LE DE VOLTA o valor que o motor de calculo produziu, para conferir com o contador em Lua
 | P13 | `legacy-bridge` | COBOL → C# com equivalência provada por testes | COBOL, Delphi, VB.NET, C#, PL/I, RPG, ABAP, Apex | ⬜ scaffold |
-| P14 | **[first-code](https://github.com/Brunowdgaster/first-code)** | Curriculo de programacao visual | Pascal, Logo, Scratch, Blockly, Smalltalk | 🟨 **4 de 5, 32 testes, CI 1/1.** Cinco licoes que as quatro linguagens tem de responder com o MESMO traco de tartaruga, byte a byte -- e a licao 2 prova que o laco e abreviacao com um `diff` que sai vazio, em vez da palavra do professor. O Scratch e **gerado E interpretado** no repositorio, porque .sb3 nao tem linha de comando; o Blockly tem **dois geradores**, e um emite codigo `forge` que o compilador do P02 verifica por tipo. E a licao 5 mede o limite de blocos: a arvore recursiva sai em **9 linhas de Logo e 75 blocos** de Scratch -- mesmo tendo eu CONSTRUIDO a linguagem de blocos. O **Smalltalk e a segunda ressalva declarada** do portfolio |
+| P14 | **[first-code](https://github.com/Brunowdgaster/first-code)** | Curriculo de programacao visual | Pascal, Logo, Scratch, Blockly, Smalltalk | ✅ **5 de 5, 39 testes, CI 1/1.** Cinco licoes que as quatro linguagens tem de responder com o MESMO traco de tartaruga, byte a byte -- e a licao 2 prova que o laco e abreviacao com um `diff` que sai vazio, em vez da palavra do professor. O Scratch e **gerado E interpretado** no repositorio, porque .sb3 nao tem linha de comando; o Blockly tem **dois geradores**, e um emite codigo `forge` que o compilador do P02 verifica por tipo. E a licao 5 mede o limite de blocos: a arvore recursiva sai em **9 linhas de Logo e 75 blocos** de Scratch -- mesmo tendo eu CONSTRUIDO a linguagem de blocos. E o **Smalltalk ficou completo** em Pharo 11: a tartaruga e uma CLASSE, e `4 timesRepeat: [...]` e uma MENSAGEM enviada ao numero 4 -- nao sintaxe de laco. O Pharo custou quatro paredes, e tres estavam escritas na propria documentacao da ferramenta |
 
 Legenda: ⬜ pasta criada · 🟨 em desenvolvimento · ✅ completo (README + CI verde + resultado medido)
 
@@ -121,20 +121,20 @@ varia brutalmente entre projetos. A ordem revista está em
 [CONTEXTO.md](CONTEXTO.md#4-a-ordem-de-trabalho-decidida): terminar o P03 e
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
-Executado até aqui: **P12 completo (10/10)**, **P10 em 6 de 8** e **P14 em 4
-de 5** — de 5 linguagens para 37. O P10 ficou parcial de propósito: faltam só T-SQL e
-PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último. No P14
-falta o Smalltalk, bloqueado por rede.
+Executado até aqui: **P12 completo (11/11)**, **P14 completo (5/5)** e **P10
+em 6 de 8** — de 5 linguagens para 39. O P10 ficou parcial de propósito: faltam só T-SQL e
+PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último.
 
-### As duas ressalvas declaradas
+### As duas ressalvas, e como foram resolvidas
 
-| item | onde | por quê |
+| item | onde | o que era, e o que ficou |
 |---|---|---|
-| **VBA** | P12 | exige Microsoft Office, que é **pago** — contra a regra declarada do portfólio. Verificado: não há Office nem LibreOffice nesta máquina |
-| **Smalltalk** | P14 | `gnu-smalltalk` saiu do apt; `squeak-vm` + `etoys` instalam e a VM sobe, mas a imagem do Etoys ignora o `.st`; baixar o **Pharo** (livre, MIT, roda *headless*) está bloqueado pela política de rede da sessão |
+| **VBA** | P12 | exige Microsoft Office, que é **pago** — contra a regra declarada. **Feito em LibreOffice Basic** (MPL-2.0), rotulado como dialeto diferente, sem `Option VBASupport` |
+| **Smalltalk** | P14 | `gnu-smalltalk` saiu do apt, e `squeak-vm` + `etoys` instalam mas a imagem do Etoys ignora o `.st`. **Feito em Pharo 11** (MIT), instalado por download e registrado em [AMBIENTE.md](AMBIENTE.md) |
 
-As duas estão escritas nos READMEs dos projetos, com o que foi tentado e
-medido. Nenhuma das duas é "ainda não fiz".
+Nenhuma das duas foi declarada impossível sem ter sido tentada, e o que foi
+tentado está escrito. A única linguagem do plano original que permanece sem
+caminho gratuito é o **Stata**.
 
 Ordem original, mantida para registro:
 
@@ -157,8 +157,8 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-15: **37 linguagens distintas** em **6 projetos
-publicados** de 14, todos com CI verde. Mais 2 linguagens criadas do zero
+Resumo do estado em 2026-11-15: **39 linguagens distintas** em **6 projetos
+publicados** de 14, todos com CI verde. **P03, P12 e P14 estão completos.** Mais 2 linguagens criadas do zero
 (`.fasm` e `forge`).
 
 E o nível de uso é declarado, porque 30 linguagens "usadas" não significa 30
@@ -168,12 +168,35 @@ dominadas:
 |---|---|---|
 | **implementação completa** | 12 | uma VM inteira, um verificador de tipos ou uma plataforma distribuída escrita do zero — C, Rust, Nim, Odin, D, V, Ada, Haskell, OCaml, F#, Elixir, Go |
 | **ferramenta real, em produção no portfólio** | 16 | resolve um problema que o portfólio TEVE, e roda no CI — Perl, AWK, Lua, Raku, Tcl, Nix, Groovy, PowerShell, Bash, AutoHotkey, Python, SQL, PL/pgSQL, Cypher, SPARQL, GraphQL |
-| **currículo verificado byte a byte** | 4 | a mesma lição nas quatro, com traço idêntico — Pascal, Logo, Scratch, Blockly |
+| **currículo verificado byte a byte** | 5 | a mesma lição nas cinco, com traço idêntico — Pascal, Logo, Scratch, Blockly, Smalltalk |
+| **ferramenta real** (cont.) | 1 | LibreOffice Basic — a planilha que confere a própria conta |
 | **uso genuíno, escopo menor** | 5 | Erlang, Gleam, Scala, Clojure, HCL |
 
 A separação existe porque é o que distingue este portfólio de uma lista de
 "linguagens que já toquei". Cada README declara o nível daquele projeto, e a
 contagem sai de `lua/registro.lua` no p12-toolbelt, não de estimativa.
+
+## O ambiente: ~11 GB que não estão no git
+
+Dezenas de linguagens exigem dezenas de compiladores, e **nada disso cabe no
+git** — *toolchain* não é código do projeto. O que o repositório carrega é a
+instrução de como obter cada um.
+
+**[AMBIENTE.md](AMBIENTE.md)** é o registro completo: cada pacote com a data
+de instalação tirada do log do apt, a licença (todas livres), o que ele serve
+em qual projeto, e os comandos para desinstalar no fim.
+
+| onde | tamanho | o que é |
+|---|---|---|
+| `/nix` | **8,0 GB** | a *store* do flake do p12 — guarda uma cópia independente de tudo, que é o que a torna reproduzível e caro |
+| imagens Docker | 2,0 GB | do p03 (a imagem `scratch` de 8,63 MB, kind, NATS) |
+| `~/.cache` | 1,1 GB | npm, cargo, hex |
+| toolchains à mão | 836 MB | V, Odin, Gleam, scala-cli — sem pacote no Ubuntu |
+| pacotes apt | ~1 GB | 30 compiladores e interpretadores |
+
+A remoção é **tarefa pendente declarada**, não esquecimento: cada projeto
+precisa do seu *toolchain* para o `verifica.sh` passar, então a limpeza é a
+última etapa do portfólio.
 
 ## Viabilidade nesta máquina
 
