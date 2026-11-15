@@ -37,7 +37,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P11 | `chain` | Mesmo contrato em Solidity e Vyper, fuzzing diferencial | Solidity, Vyper, Move, Cairo, Rust | ⬜ scaffold |
 | P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, Nix | ✅ **10 de 10, 51 testes (42 POSIX + 9 Windows), CI 3/3.** O AutoHotkey le o desktop do Windows e **nomeia** o que contamina uma medicao -- a primeira execucao pegou `chrome.exe` a 103% com um video no titulo, que e literalmente o cenario que corrompeu uma medicao do P03. O **VBA e o primeiro item genuinamente bloqueado do portfolio**: exige Office, que e pago. Cada ferramenta resolve um problema que o portfolio TEVE. A grammar em Raku da **9/9 byte a byte** contra o desmontador em C do P01 -- e achou que o formato aceita hexadecimal, o que eu nao sabia. O Expect achou que o OCaml emite bytes DIFERENTES num terminal e num pipe. E o flake do Nix achou que o padrao de um teste meu quebrava entre OCaml 5.3 e 5.4 -- **um segundo ambiente encontra as suposicoes que o primeiro nunca questiona** |
 | P13 | `legacy-bridge` | COBOL → C# com equivalência provada por testes | COBOL, Delphi, VB.NET, C#, PL/I, RPG, ABAP, Apex | ⬜ scaffold |
-| P14 | `first-code` | Currículo de programação visual | Scratch, Blockly, Logo, Smalltalk, Pascal | ⬜ scaffold |
+| P14 | **[first-code](https://github.com/Brunowdgaster/first-code)** | Curriculo de programacao visual | Pascal, Logo, Scratch, Blockly, Smalltalk | 🟨 **4 de 5, 32 testes, CI 1/1.** Cinco licoes que as quatro linguagens tem de responder com o MESMO traco de tartaruga, byte a byte -- e a licao 2 prova que o laco e abreviacao com um `diff` que sai vazio, em vez da palavra do professor. O Scratch e **gerado E interpretado** no repositorio, porque .sb3 nao tem linha de comando; o Blockly tem **dois geradores**, e um emite codigo `forge` que o compilador do P02 verifica por tipo. E a licao 5 mede o limite de blocos: a arvore recursiva sai em **9 linhas de Logo e 75 blocos** de Scratch -- mesmo tendo eu CONSTRUIDO a linguagem de blocos. O **Smalltalk e a segunda ressalva declarada** do portfolio |
 
 Legenda: ⬜ pasta criada · 🟨 em desenvolvimento · ✅ completo (README + CI verde + resultado medido)
 
@@ -121,9 +121,20 @@ varia brutalmente entre projetos. A ordem revista está em
 [CONTEXTO.md](CONTEXTO.md#4-a-ordem-de-trabalho-decidida): terminar o P03 e
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
-Executado até aqui: **P12 completo (10/10)** e **P10 em 6 de 8** — de 5
-linguagens para 33. O P10 ficou parcial de propósito: faltam só T-SQL e
-PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último.
+Executado até aqui: **P12 completo (10/10)**, **P10 em 6 de 8** e **P14 em 4
+de 5** — de 5 linguagens para 37. O P10 ficou parcial de propósito: faltam só T-SQL e
+PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último. No P14
+falta o Smalltalk, bloqueado por rede.
+
+### As duas ressalvas declaradas
+
+| item | onde | por quê |
+|---|---|---|
+| **VBA** | P12 | exige Microsoft Office, que é **pago** — contra a regra declarada do portfólio. Verificado: não há Office nem LibreOffice nesta máquina |
+| **Smalltalk** | P14 | `gnu-smalltalk` saiu do apt; `squeak-vm` + `etoys` instalam e a VM sobe, mas a imagem do Etoys ignora o `.st`; baixar o **Pharo** (livre, MIT, roda *headless*) está bloqueado pela política de rede da sessão |
+
+As duas estão escritas nos READMEs dos projetos, com o que foi tentado e
+medido. Nenhuma das duas é "ainda não fiz".
 
 Ordem original, mantida para registro:
 
@@ -146,7 +157,7 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-15: **33 linguagens distintas** em **5 projetos
+Resumo do estado em 2026-11-15: **37 linguagens distintas** em **6 projetos
 publicados** de 14, todos com CI verde. Mais 2 linguagens criadas do zero
 (`.fasm` e `forge`).
 
@@ -157,6 +168,7 @@ dominadas:
 |---|---|---|
 | **implementação completa** | 12 | uma VM inteira, um verificador de tipos ou uma plataforma distribuída escrita do zero — C, Rust, Nim, Odin, D, V, Ada, Haskell, OCaml, F#, Elixir, Go |
 | **ferramenta real, em produção no portfólio** | 16 | resolve um problema que o portfólio TEVE, e roda no CI — Perl, AWK, Lua, Raku, Tcl, Nix, Groovy, PowerShell, Bash, AutoHotkey, Python, SQL, PL/pgSQL, Cypher, SPARQL, GraphQL |
+| **currículo verificado byte a byte** | 4 | a mesma lição nas quatro, com traço idêntico — Pascal, Logo, Scratch, Blockly |
 | **uso genuíno, escopo menor** | 5 | Erlang, Gleam, Scala, Clojure, HCL |
 
 A separação existe porque é o que distingue este portfólio de uma lista de
