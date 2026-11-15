@@ -35,7 +35,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P09 | `silicon` | CPU RISC-V em Verilog rodando o VM do P01 | Verilog, SystemVerilog, VHDL, Assembly, C, Rust, MicroPython, Tcl | ⬜ scaffold |
 | P10 | `query-lab` | Mesmo domínio em relacional, grafo e RDF | SQL, PL/pgSQL, PL/SQL, T-SQL, Cypher, SPARQL, GraphQL | ⬜ scaffold |
 | P11 | `chain` | Mesmo contrato em Solidity e Vyper, fuzzing diferencial | Solidity, Vyper, Move, Cairo, Rust | ⬜ scaffold |
-| P12 | `toolbelt` | Automação de uso diário, cada peça na linguagem natural | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AHK, VBA, Nix | ⬜ scaffold |
+| P12 | **[toolbelt](https://github.com/Brunowdgaster/toolbelt)** | Automacao e higiene do proprio portfolio | Bash, PowerShell, Perl, AWK, Lua, Tcl, Raku, Groovy, AutoHotkey, VBA, Nix | 🟨 **3 de 10: Perl, AWK e Lua completos, 22 testes, CI verde.** Cada ferramenta resolve um problema que o portfolio TEVE: o lint de medicoes acha numero sem dispersao (e da **zero** no P01, que inventou a regra); o estatistica.awk **reproduz** a conclusao do harness do P03 por caminho independente; e o cobertura.lua **corrigiu minha contagem** de linguagens na primeira execucao |
 | P13 | `legacy-bridge` | COBOL → C# com equivalência provada por testes | COBOL, Delphi, VB.NET, C#, PL/I, RPG, ABAP, Apex | ⬜ scaffold |
 | P14 | `first-code` | Currículo de programação visual | Scratch, Blockly, Logo, Smalltalk, Pascal | ⬜ scaffold |
 
