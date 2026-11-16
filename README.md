@@ -28,7 +28,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **3 de 15: compilador completo + 2 portes do verificador.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 nas 3 VMs do P01. OCaml e F# reimplementam o Algoritmo W com saida **byte a byte identica** em 23 casos -- inclusive os nomes das variaveis de tipo, o que exige gerar variaveis frescas na mesma ordem. O F# escreve em **menos linhas que o Haskell** (496 contra 533) e parte 8x a 17x mais lento. Provas formais pendentes |
 | P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ✅ **Completo, 8/8 linguagens, CI 9/9.** 700 mil conexoes supervisionadas a 3.534 B cada; protocolo verificado byte a byte em 4 linguagens; travessia de NIF em ~30 ns; Loom custa 1.323 B mas sofre inanicao total onde a BEAM degrada 21x; `agent` de Clojure fica na mesma ordem de grandeza do GenServer; 20 asseroes de IaC. **Auditoria completa das medicoes em docs/AUDITORIA.md: 5 corrigidas.** Ambiente 100% livre |
 | P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
-| P05 | `datalab` | Mesmo modelo estatístico em 5 linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, Stata, Wolfram | ⬜ scaffold |
+| P05 | **[datalab](https://github.com/Brunowdgaster/datalab)** | Mesmo modelo estatistico em N linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, hansl, Wolfram, SQL | 🟨 **6 de 10, 11 verificacoes, CI 1/1.** O unico projeto que NAO compara byte a byte, e diz por que: ponto flutuante nao e associativo. A tolerancia vem do numero de condicao MEDIDO. E a conclusao e o oposto da esperada: **a diferenca entre ALGORITMOS e 13 ordens de grandeza maior que a diferenca entre linguagens** -- duas linguagens rodando QR concordam em 1,4e-08, e a MESMA linguagem rodando equacoes normais erra 3,4e-03. O SQL, que nao tem escolha de algoritmo, erra **40% no erro padrao residual** -- e nem o R nem o Octave emitem aviso algum |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
 | P07 | `engine` | Motor próprio vs. Godot vs. Unreal | C++, C#, Lua, GDScript, Blueprints, HLSL, GLSL | ⬜ scaffold |
 | P08 | `tri-mobile` | Mesmo app: Android nativo, iOS nativo, Flutter | Kotlin, Java, Swift, Objective-C, Dart | ⬜ scaffold |
@@ -121,8 +121,8 @@ varia brutalmente entre projetos. A ordem revista está em
 [CONTEXTO.md](CONTEXTO.md#4-a-ordem-de-trabalho-decidida): terminar o P03 e
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
-Executado até aqui: **P12 completo (11/11)**, **P14 completo (5/5)** e **P10
-em 6 de 8** — de 5 linguagens para 39. O P10 ficou parcial de propósito: faltam só T-SQL e
+Executado até aqui: **P12 completo (11/11)**, **P14 completo (5/5)**, **P10 em
+6 de 8** e **P05 em 6 de 10** — de 5 linguagens para 43. O P10 ficou parcial de propósito: faltam só T-SQL e
 PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último.
 
 ### As duas ressalvas, e como foram resolvidas
@@ -157,7 +157,7 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-15: **39 linguagens distintas** em **6 projetos
+Resumo do estado em 2026-11-15: **43 linguagens distintas** em **7 projetos
 publicados** de 14, todos com CI verde. **P03, P12 e P14 estão completos.** Mais 2 linguagens criadas do zero
 (`.fasm` e `forge`).
 
