@@ -40,7 +40,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **58**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **61**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -51,12 +51,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**58 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**61 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 59; as distintas são 58
+Rodada em `p12-toolbelt/`. A soma por projeto dá 62; as distintas são 61
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -80,9 +80,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**58 de 100 — 58 %. Faltam 42.**
+**61 de 100 — 61 %. Faltam 39.**
 
-### As 58, com a evidência ao lado
+### As 61, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -144,6 +144,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 56 | Elm | P04 | `View.elm`: MVU e *ports* — e o Elm precisou de um harness em JS, que é **o preço da garantia** |
 | 57 | PureScript | P04 | `Main.purs`: classes de tipo, e o FFI que **compilou e quebrou em execução** |
 | 58 | Dart | P04 | `view.dart`: `sound null safety`, e quatro alvos de compilação |
+| 59 | C++ | P01 | `fvm.cpp`: `shared_ptr` **não coleta ciclo** — e o ORC do Nim coleta |
+| 60 | Zig | P01 | `fvm.zig`: alocador na assinatura, e a tabela de operandos derivada do enum em `comptime` |
+| 61 | Assembly x86-64 | P01 | `ports/asm/x86_64/fvm.s`: sem libc, `_start` e syscalls — o **subconjunto** do despacho |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -172,7 +175,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 
 | projeto | planejadas | feitas | o que falta |
 |---|---|---|---|
-| P01 metal-vm | 12 | **7** — 58 % | C++, Zig, Assembly ×3 |
+| P01 metal-vm | 12 | **10** — 83 % | Assembly ARM64, Assembly RISC-V |
 | P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
 | P04 webstack | 10 | 0 | tudo |
@@ -258,9 +261,15 @@ duas imagens de contêiner de vários gigabytes.
 > idêntico. A tabela de *bundle size* que o plano promete **não** entrou: ver
 > a nota no README do projeto sobre por que medir sem método não serve.
 
+> **Feito em 2026-11-17:** o **P01 foi de 7 para 10 de 12** — C++, Zig e
+> Assembly x86-64, com os sete portes em 9/9 e o assembly em 4/4. Faltam
+> Assembly ARM64 e RISC-V: as *toolchains* de cross e o `qemu-user` **já estão
+> instalados**, e só o `.s` de cada arquitetura não existe. A suíte os marca
+> como pulados em vez de fingir que passam.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
+| 1 | **P01**: Assembly ARM64 e RISC-V | +2 | o x86-64 já prova a estrutura; é re-codificar o mesmo subconjunto, e as ferramentas estão prontas |
 | 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
 | 5 | P07, P08, P09, P11 | ~25 | produtos maiores; o P08 depende de macOS para uma das vias |
