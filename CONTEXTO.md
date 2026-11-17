@@ -40,7 +40,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **55**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **58**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -51,12 +51,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**55 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**58 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 56; as distintas são 55
+Rodada em `p12-toolbelt/`. A soma por projeto dá 59; as distintas são 58
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -80,9 +80,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**55 de 100 — 55 %. Faltam 45.**
+**58 de 100 — 58 %. Faltam 42.**
 
-### As 55, com a evidência ao lado
+### As 58, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -141,6 +141,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 53 | HTML | P04 | `dados/esperado/view.html`: o alvo que as cinco acertam byte a byte |
 | 54 | CSS | P04 | `css/orcamento.css`: artefato gerado, commitado e verificado |
 | 55 | Sass | P04 | `orcamento.scss`: e a decisão honesta de que **não se paga** nesta folha |
+| 56 | Elm | P04 | `View.elm`: MVU e *ports* — e o Elm precisou de um harness em JS, que é **o preço da garantia** |
+| 57 | PureScript | P04 | `Main.purs`: classes de tipo, e o FFI que **compilou e quebrou em execução** |
+| 58 | Dart | P04 | `view.dart`: `sound null safety`, e quatro alvos de compilação |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -250,10 +253,14 @@ duas imagens de contêiner de vários gigabytes.
 > de 12 e 21 verificações. Faltam Elm, PureScript e Dart, que são as três vias
 > que o entregável do plano exige para a tabela de *bundle size*.
 
+> **Feito em 2026-11-16:** o **P04 está completo (12/12, 29 verificações)**.
+> Elm, PureScript e Dart entraram, e as três produzem HTML byte a byte
+> idêntico. A tabela de *bundle size* que o plano promete **não** entrou: ver
+> a nota no README do projeto sobre por que medir sem método não serve.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P04**: Elm, PureScript, Dart | +3 | fecham o projeto e habilitam a tabela comparativa que o plano promete |
-| 2 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
+| 1 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
 | 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
 | 5 | P07, P08, P09, P11 | ~25 | produtos maiores; o P08 depende de macOS para uma das vias |
