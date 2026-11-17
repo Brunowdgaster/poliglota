@@ -40,7 +40,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **46**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **47**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -51,12 +51,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**46 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**47 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 47; as distintas são 46
+Rodada em `p12-toolbelt/`. A soma por projeto dá 48; as distintas são 47
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -80,9 +80,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**46 de 100 — 46 %. Faltam 54.**
+**47 de 100 — 47 %. Faltam 53.**
 
-### As 46, com a evidência ao lado
+### As 47, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -132,6 +132,7 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 44 | Scratch | P14 | `gera.py` + `simula.py`: `.sb3` gerado **e** interpretado aqui |
 | 45 | Blockly | P14 | `blocos.js`: dois geradores, um deles emite código `forge` |
 | 46 | Smalltalk | P14 | `licoes.st`: classe de verdade, em Pharo 11 headless |
+| 47 | Object Pascal | P13 | `juros.pas`: `Currency` bate byte a byte, e o `--double` concordava **por acidente** |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -172,7 +173,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P10 query-lab | 8 | **6** — 75 % | T-SQL e PL/SQL (imagens de 1,5 e 2,5 GB) |
 | P11 chain | 6 | 0 | tudo |
 | P12 toolbelt | 11 | **11 — completo** | — |
-| P13 legacy | 9 | **3** — 33 % | Object Pascal, PL/I, RPG, ABAP, Apex |
+| P13 legacy | 9 | **4** — 44 % | PL/I, RPG, ABAP, Apex, SQL |
 | P14 first-code | 5 | **5 — completo** | — |
 
 > Atenção à diferença entre as duas contagens, que **não** é erro: o P05 feito
@@ -232,14 +233,25 @@ duas imagens de contêiner de vários gigabytes.
 
 ### Os próximos, por custo crescente
 
+> **Feito em 2026-11-16:** o item 1 desta lista — **Object Pascal no P13** —
+> está pronto e publicado. O P13 foi de 3 para 4 de 9, com 22 verificações, e
+> rendeu o achado da **precisão simples do FPC** descrito na seção 6. A lista
+> abaixo já reflete isso.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P13**: Object Pascal | +1 | o mais barato que resta: `fpc` e `ppcx64` **já instalados**, a especificação executável em COBOL já existe, e basta bater byte a byte contra `saida/`. O PL/I fica para depois: nenhum compilador instalado (`plic`/`pli` ausentes em 2026-11-16) |
-| 2 | **P04** webstack | +10 | maior rendimento restante; quase tudo é npm, sem compilador novo |
-| 3 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
+| 1 | **P04** webstack | +10 | maior rendimento restante; quase tudo é npm, sem compilador novo |
+| 2 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
+| 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
 | 5 | P07, P08, P09, P11 | ~25 | produtos maiores; o P08 depende de macOS para uma das vias |
 | 6 | **P02** restante | +12 | provas em Lean/Coq/Agda/Idris: o trabalho mais caro de todos, e o de maior valor técnico |
+
+O **PL/I, RPG, ABAP e Apex** do P13 ficam fora desta ordem de propósito:
+nenhum compilador de PL/I está instalado (`plic`/`pli` ausentes, verificado em
+2026-11-16), e os outros três exigem conta gratuita em serviço externo
+(PUB400, SAP BTP, Salesforce). Eles entram como módulos documentados, que é o
+que o plano original pede.
 
 Duas decisões do autor estão pendentes e não devem ser tomadas sem ele:
 **abrir ou não as contas gratuitas** de PUB400, SAP BTP e Salesforce (vale RPG,
@@ -282,7 +294,7 @@ ABAP e Apex, +3) e **baixar ou não** as imagens de T-SQL e PL/SQL (+2, 4 GB).
 
 ---
 
-## 6. A lição que se repetiu dez vezes
+## 6. A lição que se repetiu onze vezes
 
 **O instrumento esconde o próprio sinal.** Começou como "falha silenciosa:
 redirecionar a saída e não olhar o código de retorno", e as ocorrências
@@ -301,8 +313,18 @@ que possa dizer "ok" sem ter verificado.
 | 8 | `pwsh/Audita-Repos.ps1` (P12) | `$?` diz se o PowerShell conseguiu **invocar** o programa, não o que o programa devolveu — o código real está em `$LASTEXITCODE`, e a diferença é **silenciosa**. Em Bash as três camadas colapsam em um `if` |
 | 9 | `perl/lint_medicoes.pl` (P12) | três falsos negativos **no próprio lint**: o contexto do parágrafo atravessava o cabeçalho da seção seguinte (um título com a palavra "dispersão" silenciava o achado); faltava `use utf8`, então `/µs/` eram **dois bytes** contra **um caractere** na entrada; e a saída saía em mojibake. Achados por **testar as duas direções**, não por leitura |
 | 10 | `registro.lua` (P12) | o comentário dizia que o C# "já conta em outro projeto" e ele só existe no P13: a ferramenta que existe para a conta **publicou 45 em vez de 46** desde que o P13 entrou no registro. Achado pela auditoria deste arquivo em 2026-11-16 |
+| 11 | `pascal/juros.pas` (P13) | **dois defeitos se cancelaram, e o teste passou.** O modo `--double` existe para DIVERGIR do COBOL, e ele concordava. A causa: o FPC avalia `Integer / <literal real>` em precisão **simples** — erro relativo de `4,7e-08`, cinco ordens pior que `Double` — e isso empurrou o valor para o outro lado do meio centavo. Achado por uma sonda (`pascal/sonda_precisao.pas`) escrita só para medir por que o teste passava |
 
-**Conhecer o modo de falha não imuniza contra ele** — dez vezes é prova disso.
+A décima primeira é de uma espécie nova e pior: as dez anteriores eram
+instrumentos que diziam "ok" sem verificar. Esta é um **programa errado por
+dois motivos ao mesmo tempo, com os dois erros se anulando no resultado**.
+
+> Quando um teste passa por acidente, ele deixa de ser teste e passa a ser
+> ruído com aparência de evidência. E a única forma de descobrir é desconfiar
+> de um teste que passa quando você esperava que falhasse.
+
+**Conhecer o modo de falha não imuniza contra ele** — onze vezes é prova
+disso.
 A conclusão prática mudou de "tome cuidado" para **"a correção tem de ser
 código"**:
 
@@ -325,6 +347,13 @@ Outras lições já pagas:
   e ocioso é invisível. Anomalia implausível na tabela é informação.
 - **Comentar uma invariante encontra bugs**: o bug de slot do P02 apareceu
   enquanto eu escrevia por que a invariante valia — e não valia.
+- **Um teste sobre CÓDIGO que lê também a PROSA** — quatro vezes, todas no
+  mesmo dia. Um `grep` que proíbe uma construção acusa o comentário que
+  explica por que ela é proibida: `Option VBASupport` (P12), `methodsFor:`
+  (P14), o separador de chunk (P14) e `Taxa / 10000.0` (P13). A correção é
+  sempre a mesma — uma passagem que rastreia o estado de comentário da
+  linguagem — e o padrão é geral: **`grep` não sabe onde o código termina.**
+
 - **O caso espelhado, que é outro bug e não o mesmo**: no P05, o teste "a
   referência gravada está em dia?" comparava o JSON do instantâneo **como
   texto**, passava aqui e **falhava no CI** — porque o LAPACK do runner não é o
