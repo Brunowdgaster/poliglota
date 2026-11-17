@@ -31,7 +31,7 @@ como Windows.
 | `/nix` | **8,0 GB** | a *store* do Nix, do flake do p12-toolbelt |
 | `~/toolchains` | 478 MB | V e Odin, baixados à mão (não há pacote apt) |
 | `/usr/local/bin` | 358 MB | Gleam e scala-cli, instalados por tarball |
-| imagens Docker | 2,0 GB | do p03-otp-mesh (Go em `scratch`, kind, NATS) |
+| imagens Docker | 2,0 GB + **4,0 GB** | do p03 (Go em `scratch`, kind, NATS), mais SQL Server e Oracle do p10 |
 | `~/.cache` | 1,1 GB | caches de npm, cargo, hex, stack |
 | `~/pharo` | 310 MB | VM e imagem do Pharo, do p14-first-code |
 | LibreOffice | ~400 MB | o Basic do p12-toolbelt |
@@ -175,6 +175,18 @@ I/O para 2,8 segundos de CPU.
 | `kindest/node` | 1,34 GB | o cluster local do p03 |
 | `nats:2.10-alpine` | 38,7 MB | mensageria do p03 |
 | `alpine:3.22` | 12,9 MB | base |
+| `mcr.microsoft.com/mssql/server:2022-latest` | ~1,5 GB | **T-SQL** do p10-query-lab — SQL Server **Developer Edition**, gratuita para desenvolvimento |
+| `container-registry.oracle.com/database/free:latest` | ~2,5 GB | **PL/SQL** do p10-query-lab — Oracle Database **Free**, gratuita e sem cadastro |
+
+> As duas últimas são as **maiores imagens do portfólio**, e entram só para as
+> duas linguagens que faltavam no p10. Registradas aqui **antes** de serem
+> baixadas, pela decisão do autor de que a lista de remoção não fica
+> desatualizada.
+>
+> As duas edições são gratuitas para desenvolvimento, e é por isso que o
+> `VIABILIDADE.md` marcava o p10 como viável: Oracle XE/Free e SQL Server
+> Developer não exigem licença paga, só **um por vez** nesta máquina — e é
+> assim que a suíte os roda.
 
 ## No Windows (fora do WSL)
 
@@ -201,6 +213,42 @@ instalado, e `Excel.Application`/`Word.Application` não estavam registrados.
 
 ## Desinstalando
 
+### A condição: só quando os 14 projetos estiverem prontos E verdes no GitHub
+
+**Nada desta seção deve ser executado antes disso**, e a razão é mecânica:
+cada projeto depende do seu *toolchain* para o `verifica.sh` passar. Remover o
+`ghc` quebra o p02; remover o `postgresql` quebra o p10; remover o Pharo
+quebra o p14.
+
+A condição tem três partes, e as três são **verificáveis por comando**:
+
+```bash
+# 1. os 14 projetos existem como repositório publicado
+gh repo list --limit 50 --json name --jq '.[].name'
+
+# 2. cada um com CI verde na última execução
+for r in metal-vm forge-lang otp-mesh webstack datalab \
+         gpu-arena engine tri-mobile silicon query-lab \
+         chain toolbelt legacy-bridge first-code; do
+  printf '%-16s ' "$r"
+  gh run list -R "$(gh api user --jq .login)/$r" --limit 1 \
+     --json conclusion --jq '.[0].conclusion'
+done
+
+# 3. a contagem de linguagens bate com a meta
+lua5.4 p12-toolbelt/lua/cobertura.lua p12-toolbelt/lua/registro.lua
+```
+
+Enquanto qualquer das três falhar, a limpeza é **cedo**. E o custo de esperar
+é disco, que esta máquina tem de sobra; o custo de antecipar é refazer a
+instalação de um projeto inteiro para corrigir uma linha.
+
+> Esta decisão é do autor do portfólio, registrada em 2026-11-17: *"colocar na
+> lista de itens a apagar quando terminar todos os projetos e eles estarem
+> certinhos no GitHub."*
+
+### A ordem, e o que cada passo devolve
+
 Em ordem de quanto espaço devolve. **Cada comando está escrito para ser lido
 antes de rodar** — nenhum deles é reversível.
 
@@ -216,9 +264,19 @@ sudo rm -rf /nix
 A `nix-collect-garbage -d` sozinha devolve a maior parte, e é reversível no
 sentido de que o flake reconstrói. O `rm -rf /nix` é definitivo.
 
-### 2. Imagens Docker — 2,0 GB
+### 2. Imagens Docker — 2,0 GB, e mais 4,0 GB com as de banco
 
 ```bash
+# As duas de banco primeiro, por nome, porque sao as maiores:
+docker rmi mcr.microsoft.com/mssql/server:2022-latest
+docker rmi container-registry.oracle.com/database/free:latest
+
+# E os volumes nomeados que elas criam, que o `rmi` NAO remove -- um banco
+# apagado deixando o volume atras e a forma mais comum de "removi e o disco
+# nao voltou".
+docker volume ls --filter name=p10 -q | xargs -r docker volume rm
+
+# Depois o resto:
 docker system prune -a --volumes
 sudo apt-get purge -y docker.io
 ```

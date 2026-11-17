@@ -14,10 +14,19 @@ ser redescoberto.
 > O registro completo, com data de instalação, licença de cada item e os
 > comandos de remoção, está em **[AMBIENTE.md](AMBIENTE.md)**.
 >
-> **Isto é uma tarefa pendente do projeto**, decidida pelo autor: quando os 14
-> projetos estiverem prontos, rodar a seção *Desinstalando* daquele arquivo.
-> Não remover antes — cada projeto depende do seu *toolchain* para o
-> `verifica.sh` passar.
+> **Isto é uma tarefa pendente do projeto**, decidida pelo autor em
+> 2026-11-17, com a condição escrita nas palavras dele: *"apagar quando
+> terminar todos os projetos e eles estarem **certinhos no GitHub**"*.
+>
+> São **três condições**, e o `AMBIENTE.md` traz o comando que verifica cada
+> uma: os 14 repositórios publicados, cada um com **CI verde na última
+> execução**, e a contagem de linguagens conferida pelo `cobertura.lua`.
+>
+> **Não remover antes.** Cada projeto depende do seu *toolchain* para o
+> `verifica.sh` passar: remover o `ghc` quebra o p02, o `postgresql` quebra o
+> p10, o Pharo quebra o p14. O custo de esperar é disco, que esta máquina tem
+> de sobra; o de antecipar é reinstalar um projeto inteiro para corrigir uma
+> linha.
 >
 > Dois itens não devem ser removidos pela lista: `sqlmap` e `ffuf` foram
 > instalados antes deste portfólio e não pertencem a ele.
