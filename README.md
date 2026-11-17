@@ -122,7 +122,7 @@ varia brutalmente entre projetos. A ordem revista está em
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
 Executado até aqui: **P12 completo (11/11)**, **P14 completo (5/5)**, **P10 em
-6 de 8**, **P05 em 6 de 10** e **P13 em 3 de 9** — de 5 linguagens para 45. O P10 ficou parcial de propósito: faltam só T-SQL e
+6 de 8**, **P05 em 6 de 10** e **P13 em 3 de 9** — de 5 linguagens para 46. O P10 ficou parcial de propósito: faltam só T-SQL e
 PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último.
 
 ### As duas ressalvas, e como foram resolvidas
@@ -157,8 +157,16 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-15: **45 linguagens distintas** em **8 projetos
-publicados** de 14, todos com CI verde. **P03, P12 e P14 estão completos.** Mais 2 linguagens criadas do zero
+Resumo do estado em 2026-11-16: **46 linguagens distintas** em **8 projetos
+publicados** de 14, todos com CI verde. **P03, P12 e P14 estão completos.**
+
+> O número era publicado como 45, e a auditoria do `CONTEXTO.md` achou o erro:
+> `lua/registro.lua` não listava o **C#** no P13, com um comentário afirmando
+> que ele "já conta em outro projeto". Não conta — o C# existe só lá. O
+> portfólio vinha se **subestimando em uma linguagem**, e a correção está
+> confirmada por dois instrumentos independentes: a suíte do P12 em 8/8 e a
+> planilha em LibreOffice Basic, que compara o `=SUM()` do motor de cálculo
+> com o contador em Lua. Mais 2 linguagens criadas do zero
 (`.fasm` e `forge`).
 
 E o nível de uso é declarado, porque 30 linguagens "usadas" não significa 30

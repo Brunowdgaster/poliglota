@@ -22,7 +22,7 @@ ser redescoberto.
 > Dois itens não devem ser removidos pela lista: `sqlmap` e `ffuf` foram
 > instalados antes deste portfólio e não pertencem a ele.
 
-Última atualização: 2026-11-15.
+Última atualização: 2026-11-16.
 
 ---
 
@@ -30,17 +30,18 @@ ser redescoberto.
 
 > "Mostrar domínio completo e absoluto do maior número de linguagens possíveis."
 
-Catorze projetos de engenharia que, somados, cobrem ~130 linguagens. Cada
-linguagem aparece **onde é a escolha tecnicamente certa**, com resultado medido
-e trade-off escrito — não como pasta com *hello world*.
+Catorze projetos de engenharia que, somados, visam **100 linguagens** — a
+meta declarada em `registro.lua`, que é a que vale. Cada linguagem aparece
+**onde é a escolha tecnicamente certa**, com resultado medido e trade-off
+escrito — não como pasta com *hello world*.
 
 ### A calibração que o portfólio assume
 
-Ninguém domina 130 linguagens de forma absoluta. O que estes repositórios
+Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **23**, contadas por
-  ferramenta e não à mão — ver abaixo);
+- **profundidade real** em um núcleo de linguagens (hoje **46**, contadas por
+  ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
 Essa distinção é deliberada e é parte do valor: um portfólio que mente sobre
@@ -48,48 +49,107 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ---
 
-## 2. Onde está, medido em 2026-11-14
+## 2. Onde está, medido em 2026-11-16
 
-### Linguagens com implementação profunda: **5**
+**46 linguagens distintas, de uma meta declarada de 100.** O número vem da
+ferramenta, não da mão:
 
-| linguagem | projeto | evidência |
-|---|---|---|
-| Rust | P01, P03 | VM completa sem `unsafe`; NIF medindo ~30 ns de travessia |
-| Haskell | P02 | compilador com inferência de Hindley-Milner |
-| C | P01 | VM + GC + montador, gcc/clang/MSVC |
-| Elixir | P03 | núcleo OTP, 700 mil conexões, 35 testes |
-| Go | P03 | gateway WebSocket sem dependências, 7,1 KB/conexão |
-| Erlang | P03 | conexão alternativa na mesma árvore; 1 byte de diferença |
-| Gleam | P03 | codec tipado, 13 testes, `@external` para OTP sem FFI |
-| Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida |
-| Clojure | P03 | atom/ref/agent contra GenServer; 2 patologias achadas |
-| HCL | P03 | OpenTofu, 20 asserções verificando 5 propriedades |
-| Nim | P01 | porte da VM em **255 linhas**, 9/9, ORC do runtime |
-| Odin | P01 | porte da VM, 9/9, `virtual.Arena` e `context.allocator` |
-| D | P01 | porte da VM, 9/9, `SumType` exaustivo |
-| V | P01 | porte da VM, 9/9, handle+arena imposto pelo tipo-soma |
-| Ada | P01 | porte da VM, 9/9, subtipos restritos e `Unchecked_Conversion` |
-| OCaml | P02 | porte do verificador, **23/23 byte a byte**, 604 linhas |
-| F# | P02 | porte do verificador, 23/23, **496 linhas** — menos que o Haskell |
-| Perl | P12 | `lint_medicoes.pl`: número publicado sem dispersão ao lado |
-| AWK | P12 | `estatistica.awk`: faixa, dispersão e a regra de decisão |
-| Lua | P12 | `cobertura.lua`: esta própria contagem |
-| Raku | P12 | `gramatica_fasm.raku`: **9/9 byte a byte** contra o desmontador em C |
-| Tcl | P12 | `dirige_repl.exp`: 12 interações em dois REPLs, com Expect |
-| Nix | P12 | `flake.nix`: 4 devShells; achou um bug que só um 2º ambiente acha |
+    lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-> A contagem agora é feita por `p12-toolbelt/lua/cobertura.lua`, não à mão.
-> Ela corrigiu meu número na primeira execução — eu vinha dizendo 17, e são 20,
-> porque eu não contava as três ferramentas que acabara de escrever. E resolve
-> a **sobreposição**: Rust conta uma vez no total e duas na soma por projeto.
+Rodada em `p12-toolbelt/`. A soma por projeto dá 47; as distintas são 46
+porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
+
+> ### O que a auditoria desta data corrigiu
 >
->     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
+> Este arquivo dizia **"5 de ~130 — 3,8 %"**, medido em 2026-11-14, enquanto a
+> tabela três parágrafos abaixo já listava 23 linguagens e o `README.md` dizia
+> 45. Era o índice defasado — o mesmo defeito que o `lint_medicoes.pl` existe
+> para achar, e que a seção 6 catalogou dez vezes.
+>
+> E a conta publicada em si estava errada: o `registro.lua` **não listava o
+> C#**, com um comentário afirmando que ele "já conta em outro projeto". Não
+> conta — o C# existe só no P13. O `README.md` do P13 sempre disse "3 das 9";
+> era o registro que estava errado, e o portfólio vinha se **subestimando** em
+> uma linguagem. Corrigido: **45 → 46**, com a suíte do P12 em 8/8.
 
-### Auxiliares genuinamente usadas: 4
+### Três números diferentes, e o que cada um significa
 
-Bash (1.010), YAML/Actions (259), PowerShell (100), CMake (46). Aparecem no
-plano (P12 e infra), mas não contam como "dominadas": são ferramenta, não
-produto.
+| número | de onde vem | o que é |
+|---|---|---|
+| **121** | soma de `itens_no_plano` no ROADMAP | itens do plano, incluindo o que **não é linguagem** (Makefile, CMake, YAML, Dockerfile) |
+| **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
+| ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
+
+**46 de 100 — 46 %. Faltam 54.**
+
+### As 46, com a evidência ao lado
+
+| # | linguagem | projeto | evidência |
+|---|---|---|---|
+| 1 | C | P01 | VM + GC + montador, gcc/clang/MSVC |
+| 2 | Rust | P01, P03 | VM completa sem `unsafe`; NIF medindo ~30 ns de travessia |
+| 3 | Nim | P01 | porte da VM em **255 linhas**, 9/9, ORC do runtime |
+| 4 | Odin | P01 | porte da VM, 9/9, `virtual.Arena` e `context.allocator` |
+| 5 | D | P01 | porte da VM, 9/9, `SumType` exaustivo |
+| 6 | V | P01 | porte da VM, 9/9, handle+arena imposto pelo tipo-soma |
+| 7 | Ada | P01 | porte da VM, 9/9, subtipos restritos e `Unchecked_Conversion` |
+| 8 | Haskell | P02 | compilador com inferência de Hindley-Milner completa |
+| 9 | OCaml | P02 | porte do verificador, **23/23 byte a byte**, 604 linhas |
+| 10 | F# | P02 | porte do verificador, 23/23, **496 linhas** — menos que o Haskell |
+| 11 | Elixir | P03 | núcleo OTP, 700 mil conexões, 35 testes |
+| 12 | Erlang | P03 | conexão alternativa na mesma árvore; **1 byte** de diferença |
+| 13 | Gleam | P03 | codec tipado, 13 testes, `@external` para OTP sem FFI |
+| 14 | Go | P03 | gateway WebSocket sem dependências, 7,1 KB/conexão |
+| 15 | Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida |
+| 16 | Clojure | P03 | atom/ref/agent contra GenServer; 2 patologias achadas |
+| 17 | HCL | P03 | OpenTofu, 20 asserções verificando 5 propriedades |
+| 18 | Fortran | P05 | `modelo.f90`: os **dois** algoritmos, à mão, no mesmo arquivo |
+| 19 | R | P05 | `modelo.R`: a fórmula como objeto de primeira classe |
+| 20 | Octave | P05 | `modelo.m`: álgebra linear como sintaxe (dialeto MATLAB) |
+| 21 | hansl | P05 | `modelo.inp`: no lugar do Stata, que é pago |
+| 22 | Python | P10 | `referencia.py`: o BFS sem magia que as outras 7 conferem |
+| 23 | SQL | P10 | `alcance.sql`: o **mesmo arquivo** em SQLite e PostgreSQL |
+| 24 | PL/pgSQL | P10 | `transferir.sql`: atomicidade, e a classe QL de `ERRCODE` |
+| 25 | Cypher | P10 | `alcance.cypher`: travessia como primitiva, em Kuzu |
+| 26 | SPARQL | P10 | `alcance.rq`: o padrão **não** limita repetição, e a inferência |
+| 27 | GraphQL | P10 | `esquema.graphql`: o que o modelo **não** expressa, medido |
+| 28 | Perl | P12 | `lint_medicoes.pl`: número publicado sem dispersão ao lado |
+| 29 | AWK | P12 | `estatistica.awk`: faixa, dispersão e a regra de decisão |
+| 30 | Lua | P12 | `cobertura.lua`: esta própria contagem |
+| 31 | Raku | P12 | `gramatica_fasm.raku`: **9/9 byte a byte** contra o desmontador em C |
+| 32 | Tcl | P12 | `dirige_repl.exp`: 12 interações em dois REPLs, com Expect |
+| 33 | Nix | P12 | `flake.nix`: 4 devShells; achou um bug que só um 2º ambiente acha |
+| 34 | Groovy | P12 | `relatorio.groovy`: saída dos verificadores em JUnit XML |
+| 35 | PowerShell | P12 | `Audita-Repos.ps1`, com par em Bash: as duas concordam |
+| 36 | Bash | P12 | `bash/audita-repos.sh`: o par POSIX do PowerShell |
+| 37 | AutoHotkey | P12 | `Verifica-Ambiente.ahk`: nomeia a causa que o `calibra.sh` só sente |
+| 38 | LibreOffice Basic | P12 | `Cobertura.bas`: a cobertura como planilha, com `=SUM()` de verdade |
+| 39 | COBOL | P13 | `juros.cob`: o lote original, e a especificação executável |
+| 40 | C# | P13 | `Juros.cs`: com `decimal`, idêntico ao COBOL **byte a byte** |
+| 41 | VB.NET | P13 | `Juros.vb`: a ponte que as empresas de fato usaram |
+| 42 | Pascal | P14 | `licoes.pas`: a referência, com aviso tratado como erro |
+| 43 | Logo | P14 | `licoes.lg`: `openwrite`/`setwrite` porque o build é só gráfico |
+| 44 | Scratch | P14 | `gera.py` + `simula.py`: `.sb3` gerado **e** interpretado aqui |
+| 45 | Blockly | P14 | `blocos.js`: dois geradores, um deles emite código `forge` |
+| 46 | Smalltalk | P14 | `licoes.st`: classe de verdade, em Pharo 11 headless |
+
+### A convenção de contagem mudou — e por quê
+
+A versão anterior deste arquivo tinha uma categoria **"auxiliares genuinamente
+usadas, que não contam"**: Bash, YAML, PowerShell, CMake. Ela está obsoleta
+para três delas, e a regra que a substitui está escrita em `registro.lua`:
+
+> Uma linguagem conta quando tem, naquele projeto: código que faz trabalho real
+> (não hello-world); verificação automatizada que falha se o código quebrar; e
+> uma seção de README explicando o que a linguagem deu ou cobrou. **Porte
+> declarado como porte conta. Script de build não conta** — é ferramenta, não
+> produto.
+
+Bash, PowerShell e Nix passaram a contar porque no P12 deixaram de ser cola de
+build e **viraram o produto**: o par `Audita-Repos.ps1` / `audita-repos.sh`
+audita os repositórios nas duas direções e as duas saídas têm de concordar; o
+`flake.nix` define 4 devShells e achou um bug que só um segundo ambiente acha.
+YAML e CMake continuam **não** contando — são configuração.
 
 ### Criadas do zero: 2
 
@@ -98,63 +158,92 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 
 ### Progresso contra o plano
 
-| projeto | linguagens-chave | feitas | falta |
+| projeto | planejadas | feitas | o que falta |
 |---|---|---|---|
-| P01 metal-vm | 10 | 2 (C, Rust) | C++, Zig, Assembly ×3, Nim, Odin, D, V, Ada |
-| P02 forge-lang | 11 | 1 (Haskell) | OCaml, F#, Lisps, Prolog, Lean, Coq, Agda, Idris, TLA+, WAT |
+| P01 metal-vm | 12 | **7** — 58 % | C++, Zig, Assembly ×3 |
+| P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
-| P04–P14 | ~95 | 0 | tudo |
+| P04 webstack | 10 | 0 | tudo |
+| P05 datalab | 10 | **4** — 40 % | Julia (fora do apt), Scala/Spark, Mojo, Wolfram, SAS |
+| P06 gpu-arena | 8 | 0 | tudo |
+| P07 engine | 6 | 0 | tudo |
+| P08 tri-mobile | 5 | 0 | tudo |
+| P09 silicon | 8 | 0 | tudo |
+| P10 query-lab | 8 | **6** — 75 % | T-SQL e PL/SQL (imagens de 1,5 e 2,5 GB) |
+| P11 chain | 6 | 0 | tudo |
+| P12 toolbelt | 11 | **11 — completo** | — |
+| P13 legacy | 9 | **3** — 33 % | Object Pascal, PL/I, RPG, ABAP, Apex |
+| P14 first-code | 5 | **5 — completo** | — |
 
-**5 de ~130 — 3,8%.**
+> Atenção à diferença entre as duas contagens, que **não** é erro: o P05 feito
+> são 4 aqui e "6 de 10" no seu próprio README, porque Python e SQL já contam
+> no P10. Por projeto, cada linguagem conta; no total, uma vez só. O
+> `cobertura.lua` é quem resolve isso, e por isso a conta não deve ser refeita
+> à mão.
+
+### Bloqueios conhecidos, com a causa
+
+| item | onde | o que bloqueia |
+|---|---|---|
+| T-SQL, PL/SQL | P10 | imagens de 1,5 GB e 2,5 GB; a suíte já sabe pular, e `QLAB_EXIGE=1` recusa pular no CI |
+| RPG, ABAP, Apex | P13 | exigem **conta gratuita de terceiro** (PUB400, SAP BTP, Salesforce) — decisão pendente do autor |
+| Julia | P05 | não está no apt desta distribuição |
+| Stata | P05 | **sem caminho gratuito** — a única do plano original nessa situação |
+| VBA | P12 | exige Office pago; **resolvido** com LibreOffice Basic, rotulado como outro dialeto |
 
 ---
 
 ## 3. Repositórios publicados
 
-Todos públicos, licença MIT, CI verde, na conta `Brunowdgaster`.
+Nove repositórios públicos, licença MIT, CI verde, na conta `Brunowdgaster`.
+Todos limpos e sincronizados com o remoto em 2026-11-16 (verificado com
+`git status` e `git rev-list --left-right --count HEAD...@{u}`).
 
-| repo | o que é | estado |
-|---|---|---|
-| [poliglota](https://github.com/Brunowdgaster/poliglota) | índice, roadmap, viabilidade, este arquivo | — |
-| [metal-vm](https://github.com/Brunowdgaster/metal-vm) | VM de bytecode em C e Rust | 9 casos, 54/54 cross-compat, CI 9/9 |
-| [forge-lang](https://github.com/Brunowdgaster/forge-lang) | linguagem funcional + compilador | 39/39, closures, CI verde |
-| [otp-mesh](https://github.com/Brunowdgaster/otp-mesh) | plataforma OTP + gateway Go | 10/10 + 7/7, CI 3/3 |
+| repo | o que é | verificação | linguagens |
+|---|---|---|---|
+| [poliglota](https://github.com/Brunowdgaster/poliglota) | índice: roadmap, viabilidade, ambiente, este arquivo | — | — |
+| [metal-vm](https://github.com/Brunowdgaster/metal-vm) | VM de bytecode, 2 referências + 5 portes | 9 casos, 54/54 cross-compat, CI 10/10 | 7 |
+| [forge-lang](https://github.com/Brunowdgaster/forge-lang) | linguagem funcional + compilador + 2 portes do verificador | 39/39, 23/23 byte a byte nos portes | 3 |
+| [otp-mesh](https://github.com/Brunowdgaster/otp-mesh) | plataforma OTP + gateway Go — **completo** | 10/10 + 7/7, CI 9/9 | 8 |
+| [datalab](https://github.com/Brunowdgaster/datalab) | mínimos quadrados em 6 linguagens, com tolerância justificada | 11 verificações | 6 (4 novas) |
+| [query-lab](https://github.com/Brunowdgaster/query-lab) | a mesma pergunta em 6 dialetos, 3 modelos de dados | 22 testes | 6 |
+| [toolbelt](https://github.com/Brunowdgaster/toolbelt) | ferramentas do próprio portfólio — **completo** | 49 testes POSIX + 9 Windows | 11 |
+| [legacy-bridge](https://github.com/Brunowdgaster/legacy-bridge) | lote COBOL migrado para C# e VB.NET, byte a byte | 16 verificações | 3 |
+| [first-code](https://github.com/Brunowdgaster/first-code) | o mesmo currículo em 5 linguagens visuais — **completo** | 39 testes | 5 |
 
-Pastas locais: `C:\Users\bruno\Desktop\Projetos\para se gabar\{poliglota,p01-metal-vm,p02-forge-lang,p03-otp-mesh}`,
-mais `p04-*` a `p14-*` vazias.
+Pastas locais em `C:\Users\bruno\Desktop\Projetos\para se gabar\`. As
+catorze existem; **`p04`, `p06`, `p07`, `p08`, `p09` e `p11` são placeholders**
+— só `docs/` e `src/` vazios, sem git.
 
 ---
 
 ## 4. A ordem de trabalho decidida
 
-**P03 terminado** (8/8, CI 9/9) e **camada 1 do P01 entregue** (5 portes, CI
-10/10). Linguagens com profundidade real: 10 → **15**.
+A ordem foi cortada **por camada de custo, atravessando os projetos**, e não
+projeto por projeto em profundidade. Isso veio de uma correção do autor,
+registrada na **[seção 9](#9-a-correção-que-mudou-a-ordem-de-trabalho)**.
 
-A ordem de trabalho mudou depois de uma correção do usuário, registrada na
-seção 9: cortar **por camada de custo, atravessando os projetos**, e não
-projeto por projeto em profundidade.
+### O que já foi executado nessa ordem
 
-~~Primeiro: terminar o P03.~~ Faltavam 6 linguagens (Erlang, Gleam, Rust, Scala,
-Clojure, HCL) e a ponte entre o gateway em Go e o núcleo em Elixir, que o
-README admite não existir.
+**P03 completo** (8/8), **camada 1 do P01** (5 portes da VM), e depois
+**P12 → P10 → P14 → P05 → P13**. De 5 linguagens para **46**. O P12 e o P14
+fecharam 100 %; o P10 ficou em 6 de 8 de propósito, porque o que falta são
+duas imagens de contêiner de vários gigabytes.
 
-**Depois, nesta ordem**, escolhida por **rendimento de linguagens por esforço** —
-não por impressão técnica, que foi o critério do roadmap original e é o errado
-para este objetivo:
+### Os próximos, por custo crescente
 
-| ordem | projeto | linguagens | por quê |
+| ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P12** toolbelt | 11 | peças de 50–200 linhas cada; maior rendimento do portfólio |
-| 2 | **P10** query-lab | 7 | mesmo domínio em 7 dialetos de consulta |
-| 3 | **P14** first-code | 5 | programas pequenos, linguagens visuais |
-| 4 | **P05** datalab | 10 | mesmo modelo estatístico traduzido |
-| 5 | **P06** gpu-arena | 7 | mesmo kernel em 7 APIs de GPU |
-| 6 | P01 restante | 8 | porte do núcleo da VM, ~300 linhas cada |
-| 7 | P04, P07, P08, P11, P13 | ~25 | produtos maiores |
-| 8 | **P02 restante** | 10 | provas em Lean/Coq/Agda/Idris: o trabalho mais caro de todos |
+| 1 | **P13**: Object Pascal | +1 | o mais barato que resta: `fpc` e `ppcx64` **já instalados**, a especificação executável em COBOL já existe, e basta bater byte a byte contra `saida/`. O PL/I fica para depois: nenhum compilador instalado (`plic`/`pli` ausentes em 2026-11-16) |
+| 2 | **P04** webstack | +10 | maior rendimento restante; quase tudo é npm, sem compilador novo |
+| 3 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
+| 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
+| 5 | P07, P08, P09, P11 | ~25 | produtos maiores; o P08 depende de macOS para uma das vias |
+| 6 | **P02** restante | +12 | provas em Lean/Coq/Agda/Idris: o trabalho mais caro de todos, e o de maior valor técnico |
 
-P12 → P06 levaria de 10 para ~50 linguagens com esforço comparável ao de
-terminar P02 sozinho.
+Duas decisões do autor estão pendentes e não devem ser tomadas sem ele:
+**abrir ou não as contas gratuitas** de PUB400, SAP BTP e Salesforce (vale RPG,
+ABAP e Apex, +3) e **baixar ou não** as imagens de T-SQL e PL/SQL (+2, 4 GB).
 
 ---
 
@@ -193,11 +282,12 @@ terminar P02 sozinho.
 
 ---
 
-## 6. A lição que se repetiu sete vezes
+## 6. A lição que se repetiu dez vezes
 
 **O instrumento esconde o próprio sinal.** Começou como "falha silenciosa:
-redirecionar a saída e não olhar o código de retorno", e as duas últimas
-ocorrências mostraram que o padrão é mais largo que isso.
+redirecionar a saída e não olhar o código de retorno", e as ocorrências
+seguintes mostraram que o padrão é mais largo que isso: qualquer instrumento
+que possa dizer "ok" sem ter verificado.
 
 | # | onde | como escondeu |
 |---|---|---|
@@ -208,8 +298,11 @@ ocorrências mostraram que o padrão é mais largo que isso.
 | 5 | `cmd/loadgen` (P03) | tratado **preventivamente**: sai com erro se abrir menos conexões do que pediram |
 | 6 | `bench/nif.exs` (P03) | media A em bloco e B em bloco; duas execuções deram **conclusões opostas** |
 | 7 | `setup-opentofu` no CI (P03) | o wrapper da action **engolia o exit code** de `plan -detailed-exitcode`: passava local, falhava no CI, e reportava "nenhum desvio" em vez de "não sei" |
+| 8 | `pwsh/Audita-Repos.ps1` (P12) | `$?` diz se o PowerShell conseguiu **invocar** o programa, não o que o programa devolveu — o código real está em `$LASTEXITCODE`, e a diferença é **silenciosa**. Em Bash as três camadas colapsam em um `if` |
+| 9 | `perl/lint_medicoes.pl` (P12) | três falsos negativos **no próprio lint**: o contexto do parágrafo atravessava o cabeçalho da seção seguinte (um título com a palavra "dispersão" silenciava o achado); faltava `use utf8`, então `/µs/` eram **dois bytes** contra **um caractere** na entrada; e a saída saía em mojibake. Achados por **testar as duas direções**, não por leitura |
+| 10 | `registro.lua` (P12) | o comentário dizia que o C# "já conta em outro projeto" e ele só existe no P13: a ferramenta que existe para a conta **publicou 45 em vez de 46** desde que o P13 entrou no registro. Achado pela auditoria deste arquivo em 2026-11-16 |
 
-**Conhecer o modo de falha não imuniza contra ele** — sete vezes é prova disso.
+**Conhecer o modo de falha não imuniza contra ele** — dez vezes é prova disso.
 A conclusão prática mudou de "tome cuidado" para **"a correção tem de ser
 código"**:
 
@@ -232,6 +325,13 @@ Outras lições já pagas:
   e ocioso é invisível. Anomalia implausível na tabela é informação.
 - **Comentar uma invariante encontra bugs**: o bug de slot do P02 apareceu
   enquanto eu escrevia por que a invariante valia — e não valia.
+- **O caso espelhado, que é outro bug e não o mesmo**: no P05, o teste "a
+  referência gravada está em dia?" comparava o JSON do instantâneo **como
+  texto**, passava aqui e **falhava no CI** — porque o LAPACK do runner não é o
+  mesmo build e a SVD muda os últimos bits. Não é falso OK, é **falso alarme**;
+  e a causa é irônica: a disciplina de tolerância que o projeto inteiro pregava
+  não se aplicava ao instrumento do próprio projeto. Hoje o instantâneo também
+  é comparado com `1e-10`, e o teste separa as duas causas possíveis.
 
 ---
 
@@ -352,3 +452,118 @@ Outros resultados medidos:
 - difusão particionada ~3× a serial, custando +7 % de memória por conexão;
 - socket WebSocket real: 7,1 KB por conexão, 1,9× o processo BEAM;
 - buffers de 1 KiB economizam 35 % contra os 4 KiB padrão das bibliotecas.
+
+---
+
+## 9. A correção que mudou a ordem de trabalho
+
+A seção 4 referencia esta seção, e até 2026-11-16 ela **não existia no
+arquivo** — a referência apontava para o vazio. O conteúdo estava só na memória
+da sessão, que é exatamente o lugar errado para ele. Está aqui agora.
+
+O autor me corrigiu **duas vezes** na mesma direção: o objetivo é **domínio
+demonstrado do maior número de linguagens possível**, com os projetos
+concluídos — e não profundidade máxima por linguagem.
+
+O `ROADMAP.md` sempre teve **dois níveis**, e eu só executava o primeiro:
+
+1. **implementação de referência** — funda, medida, com ensaio próprio;
+2. **porte do núcleo mínimo** (~300 linhas), declarado no README como porte e
+   **não** como produção.
+
+Tratar todo porte como implementação de referência fez o P01 parar em 2 de 12
+linguagens e o P02 em 1 de 15, enquanto o P03 — horizontal por natureza —
+fechou 8 de 8. O critério de sucesso é **cobertura com evidência honesta**, não
+profundidade máxima por linguagem.
+
+### Como aplicar, na prática
+
+- Cortar o trabalho **por camada de custo, atravessando os projetos**, e não
+  projeto por projeto em profundidade.
+- Para um porte, **"feito" = passa na suíte que já existe + seção de README
+  dizendo que é porte**. Não refazer medição, não inventar ensaio novo: os 54
+  testes do P01 e os 39 do P02 **são** a especificação.
+- A ressalva, que o autor aceitou: **porte só tem valor ao lado de uma
+  implementação de referência.** Por isso esta ordem só passou a valer depois
+  que as três âncoras (P01, P02, P03) existiam. Ela não é licença para encher o
+  portfólio de portes sem fundo.
+
+---
+
+## 10. Os projetos fechados depois do P03 — não refazer
+
+Mesma regra da seção 8: o que está aqui está medido e verificado. Os números
+vêm dos READMEs de cada repositório, que são a fonte.
+
+### P12 toolbelt — 11/11, 49 testes POSIX + 9 Windows
+
+Ferramentas que resolvem problemas que **este portfólio teve**, e três delas
+acharam erros meus na primeira execução:
+
+- `perl/lint_medicoes.pl` achou **duas linhas defasadas** neste próprio
+  arquivo: carregavam 1.400× (ETS) e 254× (`off_heap`), números
+  **pré-auditoria**, quando o README do P03 já dizia ~912× e ~66×. Eu corrigi o
+  README e esqueci o índice;
+- `lua/cobertura.lua` corrigiu a contagem de linguagens na primeira execução —
+  eu dizia 17 e eram 20, porque não contava as ferramentas que acabara de
+  escrever. E em 2026-11-16 a auditoria achou o inverso: a ferramenta estava
+  **subestimando** em 1, por um comentário errado no `registro.lua`;
+- `pwsh/Audita-Repos.ps1` contra `bash/audita-repos.sh`: as duas têm de
+  concordar, e foi o par que revelou as três camadas de código de retorno do
+  PowerShell (seção 6, linha 8);
+- `raku/gramatica_fasm.raku`: **9/9 byte a byte** contra o desmontador em C;
+- `nix/flake.nix`: 4 devShells, e achou um bug que só um segundo ambiente acha.
+
+### P14 first-code — 5/5, 39 testes
+
+Cinco lições, cinco linguagens, **o mesmo traço de tartaruga byte a byte**
+(`F 100`, `R 90`, `PU`) contra uma referência — a prova é um `diff`, não uma
+captura de tela. O formato está em `TRACO.md`.
+
+O Smalltalk exigiu **Pharo 11 por download**: `gnu-smalltalk` saiu do apt, e
+`squeak-vm` + `etoys` instalam mas a imagem do Etoys ignora o `.st`. Pharo é
+MIT e autocontido, registrado em `AMBIENTE.md` com o comando de remoção.
+
+### P10 query-lab — 6/8, 22 testes
+
+A mesma pergunta — *quem está a até 3 saltos de amizade de Ana?* — em 6
+dialetos e **3 modelos de dados**, todos obrigados a dar a mesma resposta. A
+tese não é "sei oito dialetos", é que **modelo de dados é uma escolha com
+consequências**. O `alcance.sql` é o **mesmo arquivo** rodando em SQLite e
+PostgreSQL; o SPARQL mostrou que o padrão **não limita repetição**; o
+`esquema.graphql` mede o que o modelo **não** expressa.
+
+Parcial de propósito: T-SQL e PL/SQL exigem imagens de 1,5 GB e 2,5 GB. A
+suíte já sabe pular, e `QLAB_EXIGE=1` **recusa pular** no CI.
+
+### P05 datalab — 6/10 (4 novas), 11 verificações
+
+Mínimos quadrados em 6 linguagens — 7 implementações, porque o Fortran traz os
+**dois algoritmos à mão** no mesmo arquivo — comparadas com **tolerância
+justificada** em vez de `diff`. A tolerância está escrita e defendida em
+`TOLERANCIA.md`.
+
+Dois detalhes que valem lembrar: a suíte **exige que algumas implementações
+divirjam** no caso mal-condicionado (se passassem a concordar, a tese do
+projeto estaria errada, e é esse teste que avisaria); e o instantâneo gravado
+também é comparado com tolerância — ver o caso espelhado na seção 6.
+
+### P13 legacy-bridge — 3/9, 16 verificações
+
+Um lote bancário em COBOL migrado para C# e VB.NET, com equivalência provada
+por `cmp`. Com `decimal`, as duas são **idênticas ao COBOL byte a byte**; com
+`double`, a **mesma regra, mesma ordem de operações, mesmo arredondamento**
+perde **um centavo** na conta 13.
+
+As contas 13 e 14 **não foram escolhidas à mão** — está dito em `dados/gera.py`
+que um programa varreu saldos de 0,01 a 2.000,00 contra taxas de 1 a 2.500
+emulando os dois caminhos, porque as 12 contas escolhidas à mão saíram todas
+idênticas. A previsão não se confirmou de primeira, e a busca é o que a
+sustenta.
+
+E a armadilha de ambiente, que custou três tentativas com a mesma mensagem
+`BC30420: 'Sub Main' was not found`: **o VB.NET prepende o `RootNamespace` do
+projeto ao namespace declarado no arquivo**, então o tipo real era
+`LegacyBridge.LegacyBridge.Juros`. No C# ao lado o namespace do arquivo é
+**absoluto** — duas linguagens da mesma plataforma com regra oposta para a
+mesma propriedade, e nada no erro aponta para isso.
