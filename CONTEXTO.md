@@ -40,7 +40,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **61**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **63**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -51,12 +51,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**61 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**63 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 62; as distintas são 61
+Rodada em `p12-toolbelt/`. A soma por projeto dá 64; as distintas são 63
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -80,9 +80,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**61 de 100 — 61 %. Faltam 39.**
+**63 de 100 — 63 %. Faltam 37.**
 
-### As 61, com a evidência ao lado
+### As 63, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -147,6 +147,8 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 59 | C++ | P01 | `fvm.cpp`: `shared_ptr` **não coleta ciclo** — e o ORC do Nim coleta |
 | 60 | Zig | P01 | `fvm.zig`: alocador na assinatura, e a tabela de operandos derivada do enum em `comptime` |
 | 61 | Assembly x86-64 | P01 | `ports/asm/x86_64/fvm.s`: sem libc, `_start` e syscalls — o **subconjunto** do despacho |
+| 62 | Assembly ARM64 | P01 | `ports/asm/aarch64/fvm.s`: `cset` em vez de `setcc`+`movzx`, e não existe `open` |
+| 63 | Assembly RISC-V | P01 | `ports/asm/riscv64/fvm.s`: `slt` em **uma** instrução, e nenhum registrador de condição |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -175,7 +177,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 
 | projeto | planejadas | feitas | o que falta |
 |---|---|---|---|
-| P01 metal-vm | 12 | **10** — 83 % | Assembly ARM64, Assembly RISC-V |
+| P01 metal-vm | 12 | **12 — completo** | — |
 | P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
 | P04 webstack | 10 | 0 | tudo |
@@ -267,9 +269,18 @@ duas imagens de contêiner de vários gigabytes.
 > instalados**, e só o `.s` de cada arquitetura não existe. A suíte os marca
 > como pulados em vez de fingir que passam.
 
+> **Feito em 2026-11-17:** o **P01 está completo em linguagens (12/12)**. Os
+> três portes em Assembly passam 12/12 nas três arquiteturas, e o ARM64 e o
+> RISC-V passaram na **primeira montagem** — porque o mapa de registradores
+> foi escrito antes do código, que é a lição que o segfault do x86-64 deixou.
+>
+> Faltam no P01 só os três itens de **build** do plano (Makefile, CMake, Nix),
+> que não são linguagens de programação.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P01**: Assembly ARM64 e RISC-V | +2 | o x86-64 já prova a estrutura; é re-codificar o mesmo subconjunto, e as ferramentas estão prontas |
+| 1 | **P10**: T-SQL e PL/SQL | +2 | fecham o query-lab; exigem contêineres de 1,5 GB e 2,5 GB, e o `docker` já está instalado |
+| 2 | **P13**: SQL, PL/I | +1 | o SQL não acrescenta distinta (já conta no P10) mas fecha mais um; o PL/I precisa do Iron Spring |
 | 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
 | 5 | P07, P08, P09, P11 | ~25 | produtos maiores; o P08 depende de macOS para uma das vias |
