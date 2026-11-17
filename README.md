@@ -27,7 +27,7 @@ pergunta técnica; um que calibra honestamente ganha credibilidade no resto.
 | P01 | **[metal-vm](https://github.com/Brunowdgaster/metal-vm)** | VM de bytecode em implementacoes comparadas sob medicao | C, C++, Rust, Zig, Assembly ×3, Nim, Odin, D, V, Ada | 🟨 **7 de 12: C e Rust completos, mais 5 portes** (Nim, Odin, D, V, Ada) em 9/9 contra o mesmo `.fbc`. Tabela comparativa de linhas × build × execucao × RSS; o Nim fez em **255 linhas** e o **D tem GC e ficou agrupado com os que nao tem**. 54/54 na compatibilidade cruzada, CI 10/10. C++/Zig/Assembly pendentes |
 | P02 | **[forge-lang](https://github.com/Brunowdgaster/forge-lang)** | Linguagem funcional com inferencia total + prova formal | Haskell, OCaml, F#, Racket, Scheme, CL, Clojure, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT | 🟨 **3 de 15: compilador completo + 2 portes do verificador.** Hindley-Milner total em Haskell, ordem superior e aplicacao parcial, 39/39 nas 3 VMs do P01. OCaml e F# reimplementam o Algoritmo W com saida **byte a byte identica** em 23 casos -- inclusive os nomes das variaveis de tipo, o que exige gerar variaveis frescas na mesma ordem. O F# escreve em **menos linhas que o Haskell** (496 contra 533) e parte 8x a 17x mais lento. Provas formais pendentes |
 | P03 | **[otp-mesh](https://github.com/Brunowdgaster/otp-mesh)** | Plataforma distribuida de tempo real, chaos-tested | Elixir, Erlang, Gleam, Go, Rust, Scala, Clojure, HCL, YAML | ✅ **Completo, 8/8 linguagens, CI 9/9.** 700 mil conexoes supervisionadas a 3.534 B cada; protocolo verificado byte a byte em 4 linguagens; travessia de NIF em ~30 ns; Loom custa 1.323 B mas sofre inanicao total onde a BEAM degrada 21x; `agent` de Clojure fica na mesma ordem de grandeza do GenServer; 20 asseroes de IaC. **Auditoria completa das medicoes em docs/AUDITORIA.md: 5 corrigidas.** Ambiente 100% livre |
-| P04 | `webstack` | Produto web com 3 front-ends comparados | TypeScript, JS, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL | ⬜ scaffold |
+| P04 | **[webstack](https://github.com/Brunowdgaster/webstack)** | Produto web full-stack, com 3 front-ends | TypeScript, JavaScript, HTML, CSS, Sass, Elm, PureScript, PHP, Ruby, Dart, GraphQL, CoffeeScript | 🟨 **9 de 12, 21 verificacoes, CI 1/1.** Cinco linguagens renderizam a MESMA view e o HTML e comparado por `cmp` -- porque **o navegador nao liga para a linguagem**. O achado: as bibliotecas de escape **nao concordam** -- o `htmlspecialchars` do PHP escreve `&#039;` e o `CGI.escapeHTML` do Ruby escreve `&#39;`, o navegador renderiza os dois igual, e nada avisa. Por isso as cinco escrevem o escape **a mao**. E o TypeScript nao entra como "e mainstream": um arquivo com 4 bugs que o `tsc` **tem de recusar**, com os codigos medidos |
 | P05 | **[datalab](https://github.com/Brunowdgaster/datalab)** | Mesmo modelo estatistico em N linguagens | Python, R, Julia, Scala, Fortran, Mojo, Octave, SAS, hansl, Wolfram, SQL | 🟨 **6 de 10, 11 verificacoes, CI 1/1.** O unico projeto que NAO compara byte a byte, e diz por que: ponto flutuante nao e associativo. A tolerancia vem do numero de condicao MEDIDO. E a conclusao e o oposto da esperada: **a diferenca entre ALGORITMOS e 13 ordens de grandeza maior que a diferenca entre linguagens** -- duas linguagens rodando QR concordam em 1,4e-08, e a MESMA linguagem rodando equacoes normais erra 3,4e-03. O SQL, que nao tem escolha de algoritmo, erra **40% no erro padrao residual** -- e nem o R nem o Octave emitem aviso algum |
 | P06 | `gpu-arena` | Mesmo kernel em 7 APIs de GPU | CUDA, OpenCL, Triton, WGSL, GLSL, HLSL, Metal | ⬜ scaffold |
 | P07 | `engine` | Motor próprio vs. Godot vs. Unreal | C++, C#, Lua, GDScript, Blueprints, HLSL, GLSL | ⬜ scaffold |
@@ -122,7 +122,7 @@ varia brutalmente entre projetos. A ordem revista está em
 então **P12 → P10 → P14 → P05 → P06**, que levaria de 5 para ~45 linguagens.
 
 Executado até aqui: **P12 completo (11/11)**, **P14 completo (5/5)**, **P10 em
-6 de 8**, **P05 em 6 de 10** e **P13 em 4 de 9** — de 5 linguagens para 47. O P10 ficou parcial de propósito: faltam só T-SQL e
+6 de 8**, **P05 em 6 de 10** e **P13 em 4 de 9** e **P04 em 9 de 12** — de 5 linguagens para 55. O P10 ficou parcial de propósito: faltam só T-SQL e
 PL/SQL, que exigem imagens de 1,5 GB e 2,5 GB e entram por último.
 
 ### As duas ressalvas, e como foram resolvidas
@@ -157,7 +157,7 @@ Se você está chegando agora — ou se a sessão de trabalho foi reiniciada —
 convenções já estabelecidas, armadilhas conhecidas desta máquina e a ordem de
 trabalho decidida. Nada precisa ser redescoberto.
 
-Resumo do estado em 2026-11-16: **47 linguagens distintas** em **8 projetos
+Resumo do estado em 2026-11-16: **55 linguagens distintas** em **9 projetos
 publicados** de 14, todos com CI verde. **P03, P12 e P14 estão completos.**
 
 > O número era publicado como 45, e a auditoria do `CONTEXTO.md` achou o erro:

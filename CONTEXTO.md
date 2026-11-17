@@ -40,7 +40,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **47**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **55**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -51,12 +51,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**47 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**55 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 48; as distintas são 47
+Rodada em `p12-toolbelt/`. A soma por projeto dá 56; as distintas são 55
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -80,9 +80,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**47 de 100 — 47 %. Faltam 53.**
+**55 de 100 — 55 %. Faltam 45.**
 
-### As 47, com a evidência ao lado
+### As 55, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -133,6 +133,14 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 45 | Blockly | P14 | `blocos.js`: dois geradores, um deles emite código `forge` |
 | 46 | Smalltalk | P14 | `licoes.st`: classe de verdade, em Pharo 11 headless |
 | 47 | Object Pascal | P13 | `juros.pas`: `Currency` bate byte a byte, e o `--double` concordava **por acidente** |
+| 48 | JavaScript | P04 | `js/view.js`: a referência, sem transpilação |
+| 49 | TypeScript | P04 | `ts/view.ts`: e 4 bugs que o `tsc` **tem de recusar**, com os códigos medidos |
+| 50 | CoffeeScript | P04 | `view.coffee`: o arquivo arqueológico — e ele **ainda compila** |
+| 51 | PHP | P04 | `view.php`: o legado, e o `htmlspecialchars` que escreve `&#039;` |
+| 52 | Ruby | P04 | `view.rb`: o painel, e o `CGI.escapeHTML` que concorda **por acidente** |
+| 53 | HTML | P04 | `dados/esperado/view.html`: o alvo que as cinco acertam byte a byte |
+| 54 | CSS | P04 | `css/orcamento.css`: artefato gerado, commitado e verificado |
+| 55 | Sass | P04 | `orcamento.scss`: e a decisão honesta de que **não se paga** nesta folha |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -238,9 +246,13 @@ duas imagens de contêiner de vários gigabytes.
 > rendeu o achado da **precisão simples do FPC** descrito na seção 6. A lista
 > abaixo já reflete isso.
 
+> **Feito em 2026-11-16:** o item 1 — **P04 webstack** — está publicado com 9
+> de 12 e 21 verificações. Faltam Elm, PureScript e Dart, que são as três vias
+> que o entregável do plano exige para a tabela de *bundle size*.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P04** webstack | +10 | maior rendimento restante; quase tudo é npm, sem compilador novo |
+| 1 | **P04**: Elm, PureScript, Dart | +3 | fecham o projeto e habilitam a tabela comparativa que o plano promete |
 | 2 | **P01** restante | +5 | C++, Zig e os três Assembly, sobre os 54 testes que já existem |
 | 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
