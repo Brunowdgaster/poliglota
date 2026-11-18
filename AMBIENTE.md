@@ -31,7 +31,7 @@ como Windows.
 | `/nix` | **8,0 GB** | a *store* do Nix, do flake do p12-toolbelt |
 | `~/toolchains` | 478 MB | V e Odin, baixados à mão (não há pacote apt) |
 | `/usr/local/bin` | 358 MB | Gleam e scala-cli, instalados por tarball |
-| imagens Docker | 2,0 GB + **4,0 GB** | do p03 (Go em `scratch`, kind, NATS), mais SQL Server e Oracle do p10 |
+| imagens Docker | 2,0 GB + **16,0 GB** | do p03 (Go em `scratch`, kind, NATS), mais SQL Server (2,21 GB) e Oracle (13,8 GB) do p10 |
 | `~/.cache` | 1,1 GB | caches de npm, cargo, hex, stack |
 | `~/pharo` | 310 MB | VM e imagem do Pharo, do p14-first-code |
 | LibreOffice | ~400 MB | o Basic do p12-toolbelt |
@@ -175,18 +175,36 @@ I/O para 2,8 segundos de CPU.
 | `kindest/node` | 1,34 GB | o cluster local do p03 |
 | `nats:2.10-alpine` | 38,7 MB | mensageria do p03 |
 | `alpine:3.22` | 12,9 MB | base |
-| `mcr.microsoft.com/mssql/server:2022-latest` | ~1,5 GB | **T-SQL** do p10-query-lab — SQL Server **Developer Edition**, gratuita para desenvolvimento |
-| `container-registry.oracle.com/database/free:latest` | ~2,5 GB | **PL/SQL** do p10-query-lab — Oracle Database **Free**, gratuita e sem cadastro |
+| `mcr.microsoft.com/mssql/server:2022-latest` | **2,21 GB** | **T-SQL** do p10-query-lab — SQL Server **Developer Edition**, gratuita para desenvolvimento |
+| `container-registry.oracle.com/database/free:latest` | **13,8 GB** | **PL/SQL** do p10-query-lab — Oracle Database 23ai **Free**, gratuita e sem cadastro |
 
-> As duas últimas são as **maiores imagens do portfólio**, e entram só para as
-> duas linguagens que faltavam no p10. Registradas aqui **antes** de serem
-> baixadas, pela decisão do autor de que a lista de remoção não fica
-> desatualizada.
+> As duas são as **maiores imagens do portfólio por uma ordem de grandeza**, e
+> entram só para as duas linguagens que faltavam no p10. Foram registradas
+> aqui **antes** de serem baixadas, pela decisão do autor de que a lista de
+> remoção não fica desatualizada.
 >
-> As duas edições são gratuitas para desenvolvimento, e é por isso que o
-> `VIABILIDADE.md` marcava o p10 como viável: Oracle XE/Free e SQL Server
-> Developer não exigem licença paga, só **um por vez** nesta máquina — e é
-> assim que a suíte os roda.
+> **E os números acima são correções.** O registro feito antes do download
+> dizia "~1,5 GB" e "~2,5 GB", de memória. O medido é **2,21 GB** e
+> **13,8 GB** — o do Oracle errado por mais de cinco vezes. A estimativa foi
+> substituída pelo `docker images`, e fica dito que ela era estimativa:
+>
+> ```
+> mcr.microsoft.com/mssql/server:2022-latest          2.21GB
+> container-registry.oracle.com/database/free:latest  13.8GB
+> ```
+>
+> Uma lista de remoção com número inventado não serve para decidir nada, que é
+> exatamente para o que esta lista existe.
+>
+> As duas edições são gratuitas: **SQL Server Developer** é licenciada para
+> desenvolvimento e teste, e **Oracle Database Free** é gratuita até para
+> produção, com limite de 12 GB de dados e 2 GB de RAM — nenhum deles estorva
+> um banco de 33 linhas. Nenhuma das duas pediu cadastro ou chave.
+>
+> **Elas não cabem juntas nesta máquina**, e isso foi medido: o WSL2 expõe
+> 3,8 GB, o SQL Server reserva ~2,6 GB e o Oracle pede 2 GB. Então cada
+> `roda.sh` **para o outro banco antes de subir o seu**, e a suíte roda os dois
+> em sequência.
 
 ## No Windows (fora do WSL)
 
@@ -264,7 +282,7 @@ sudo rm -rf /nix
 A `nix-collect-garbage -d` sozinha devolve a maior parte, e é reversível no
 sentido de que o flake reconstrói. O `rm -rf /nix` é definitivo.
 
-### 2. Imagens Docker — 2,0 GB, e mais 4,0 GB com as de banco
+### 2. Imagens Docker — 2,0 GB, e mais 16,0 GB com as de banco
 
 ```bash
 # As duas de banco primeiro, por nome, porque sao as maiores:

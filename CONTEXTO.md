@@ -49,7 +49,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **63**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **65**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -60,12 +60,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**63 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**65 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 64; as distintas são 63
+Rodada em `p12-toolbelt/`. A soma por projeto dá 66; as distintas são 65
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -89,9 +89,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**63 de 100 — 63 %. Faltam 37.**
+**65 de 100 — 65 %. Faltam 35.**
 
-### As 63, com a evidência ao lado
+### As 65, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -158,6 +158,8 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 61 | Assembly x86-64 | P01 | `ports/asm/x86_64/fvm.s`: sem libc, `_start` e syscalls — o **subconjunto** do despacho |
 | 62 | Assembly ARM64 | P01 | `ports/asm/aarch64/fvm.s`: `cset` em vez de `setcc`+`movzx`, e não existe `open` |
 | 63 | Assembly RISC-V | P01 | `ports/asm/riscv64/fvm.s`: `slt` em **uma** instrução, e nenhum registrador de condição |
+| 64 | T-SQL | P10 | `tsql/transferir.sql`: um `ROLLBACK` aninhado **destrói a transação do chamador**, medido |
+| 65 | PL/SQL | P10 | `plsql/transferir.sql`: `SELECT INTO` é estrito por padrão, e **todo DDL faz COMMIT** |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -195,7 +197,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P07 engine | 6 | 0 | tudo |
 | P08 tri-mobile | 5 | 0 | tudo |
 | P09 silicon | 8 | 0 | tudo |
-| P10 query-lab | 8 | **6** — 75 % | T-SQL e PL/SQL (imagens de 1,5 e 2,5 GB) |
+| P10 query-lab | 8 | **8 — completo** | — |
 | P11 chain | 6 | 0 | tudo |
 | P12 toolbelt | 11 | **11 — completo** | — |
 | P13 legacy | 9 | **4** — 44 % | PL/I, RPG, ABAP, Apex, SQL |
@@ -286,9 +288,23 @@ duas imagens de contêiner de vários gigabytes.
 > Faltam no P01 só os três itens de **build** do plano (Makefile, CMake, Nix),
 > que não são linguagens de programação.
 
+> **Feito em 2026-11-17:** o **P10 está completo (8/8)**. T-SQL e PL/SQL, com
+> 11 casos de teste cada — 7 iguais aos do PL/pgSQL, para serem comparáveis
+> caso a caso, e 4 por dialeto medindo o que só aquele motor faz. A comparação
+> entre os três está em `p10-query-lab/COMPARACAO.md`.
+>
+> As imagens: SQL Server **2,21 GB** e Oracle **13,8 GB**, medidas. O registro
+> dizia "~1,5 GB" e "~2,5 GB" — o do Oracle errado por mais de cinco vezes, e
+> corrigido no `AMBIENTE.md` com a medição ao lado.
+>
+> **O CI roda o T-SQL e dispensa o PL/SQL**, porque 13,8 GB não cabem nos
+> ~14 GB do runner. A dispensa é a única do projeto: exige uma variável
+> própria, imprime "dispensado" em vez de "pulado", é contada separada no
+> resumo, e o disco do runner é **medido no log** em vez de afirmado.
+
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
-| 1 | **P10**: T-SQL e PL/SQL | +2 | fecham o query-lab; exigem contêineres de 1,5 GB e 2,5 GB, e o `docker` já está instalado |
+| 1 | **P13**: SQL, PL/I, RPG | +2 | o SQL não acrescenta distinta (já conta no P10) mas fecha mais um dialeto do legado |
 | 2 | **P13**: SQL, PL/I | +1 | o SQL não acrescenta distinta (já conta no P10) mas fecha mais um; o PL/I precisa do Iron Spring |
 | 3 | **P13**: SQL | +0 | a mesma regra como consulta; não acrescenta linguagem distinta (SQL já conta no P10), mas fecha o P13 em 5 de 9 e o `sqlite3` já está instalado |
 | 4 | **P06** gpu-arena | +8 | CUDA funciona no WSL2, mas **Triton exige compute capability ≥ 7.0** e a MX150 é 6.1 → Colab |
@@ -601,14 +617,42 @@ O Smalltalk exigiu **Pharo 11 por download**: `gnu-smalltalk` saiu do apt, e
 `squeak-vm` + `etoys` instalam mas a imagem do Etoys ignora o `.st`. Pharo é
 MIT e autocontido, registrado em `AMBIENTE.md` com o comando de remoção.
 
-### P10 query-lab — 6/8, 22 testes
+### P10 query-lab — 8/8 completo, 28 testes
 
-A mesma pergunta — *quem está a até 3 saltos de amizade de Ana?* — em 6
+A mesma pergunta — *quem está a até 3 saltos de amizade de Ana?* — em 8
 dialetos e **3 modelos de dados**, todos obrigados a dar a mesma resposta. A
 tese não é "sei oito dialetos", é que **modelo de dados é uma escolha com
 consequências**. O `alcance.sql` é o **mesmo arquivo** rodando em SQLite e
 PostgreSQL; o SPARQL mostrou que o padrão **não limita repetição**; o
 `esquema.graphql` mede o que o modelo **não** expressa.
+
+**Os três dialetos procedurais** (PL/pgSQL, T-SQL, PL/SQL) implementam a
+mesma procedure e passam pelos mesmos 7 casos, mais 4 por dialeto que medem o
+que só aquele motor faz. A comparação está em `COMPARACAO.md`, e os achados
+que mais importam:
+
+* no **T-SQL**, `BEGIN TRAN` aninhado só incrementa `@@TRANCOUNT`, e **um**
+  `ROLLBACK` desfaz todos os níveis — medido: a linha do nível de fora
+  desapareceu. Uma procedure que desse rollback destruiria a transação de quem
+  a chamou, sem aviso. É por isso que a versão T-SQL **não abre transação**;
+* o **`SELECT INTO` do Oracle é estrito por padrão** e não há como pedir
+  silêncio, o que o torna o mais rigoroso **e o mais curto**: 3 linhas contra
+  6 no PL/pgSQL e 8 no T-SQL. No T-SQL, uma atribuição que não acha nada deixa
+  a variável com o **valor anterior** — medido, `-999` continuou `-999`;
+* **todo DDL do Oracle faz COMMIT implícito**, levando o DML pendente —
+  medido: a linha sobreviveu ao `ROLLBACK`;
+* e `NO_DATA_FOUND` tem `SQLCODE` **+100**, não `-1403`, porque é a única
+  exceção que o Oracle alinhou ao ISO. Foi o único caso que falhou na
+  primeira execução, e o erro era da minha expectativa.
+
+O **esquema ANSI roda em quatro motores** sem uma linha de dialeto. A carga
+roda em três: `VALUES` multilinha está no SQL-92 e o Oracle não aceita, então
+`plsql/traduz_carga.py` deriva a forma dele **da mesma fonte** — porque duas
+fontes para o mesmo domínio já divergiram aqui.
+
+O **CI roda o T-SQL e dispensa o PL/SQL**: 13,8 GB de imagem não cabem nos
+~14 GB do runner, e o disco é medido num passo do workflow para a dispensa ter
+evidência em vez de ser afirmação.
 
 Parcial de propósito: T-SQL e PL/SQL exigem imagens de 1,5 GB e 2,5 GB. A
 suíte já sabe pular, e `QLAB_EXIGE=1` **recusa pular** no CI.
