@@ -49,7 +49,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **66**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **67**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -60,12 +60,12 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**66 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**67 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá **71**; as distintas são 66, e a diferença são **cinco
+Rodada em `p12-toolbelt/`. A soma por projeto dá **72**; as distintas são 67, e a diferença são **cinco
 sobreposições**: GraphQL (P04 e P10), Python (P05 e P10), Rust (P01 e P03),
 SQL (P05 e P10) e Scala (P03 e P05).
 
@@ -99,9 +99,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**66 de 100 — 66 %. Faltam 34.**
+**67 de 100 — 67 %. Faltam 33.**
 
-### As 66, com a evidência ao lado
+### As 67, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -171,6 +171,7 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 64 | T-SQL | P10 | `tsql/transferir.sql`: um `ROLLBACK` aninhado **destrói a transação do chamador**, medido |
 | 65 | PL/SQL | P10 | `plsql/transferir.sql`: `SELECT INTO` é estrito por padrão, e **todo DDL faz COMMIT** |
 | 66 | Julia | P05 | `julia/modelo.jl`: as duas famílias, e que **qual fatoração** se usa muda o erro por 100× |
+| 67 | Mojo | P05 | `mojo/modelo.mojo`: onde "mesmo algoritmo, mesmo erro" **para de valer** — e as cinco paredes do Mojo 1.2 |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -203,7 +204,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
 | P04 webstack | 10 | 0 | tudo |
-| P05 datalab | 10 | **8** — 80 % | Mojo, Wolfram |
+| P05 datalab | 10 | **9** — 90 % | Wolfram (**bloqueado por cadastro**) |
 | P06 gpu-arena | 8 | 0 | tudo |
 | P07 engine | 6 | 0 | tudo |
 | P08 tri-mobile | 5 | 0 | tudo |

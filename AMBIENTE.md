@@ -122,6 +122,36 @@ Estes não têm pacote no Ubuntu 26.04, e foram baixados dos projetos oficiais.
 | **Nix store** | `/nix` | **8,0 GB** | o flake do p12 | LGPL-2.1 |
 | **Pharo 11** | `~/pharo` | 310 MB | **Smalltalk** do p14 | MIT |
 
+### Mojo: pelo `pixi`, e SEM conta — o que mudou desde os tutoriais
+
+**`~/ferramentas/mojo` 899 MB + `~/.cache/rattler` 103 MB + `~/.pixi` 70 MB =
+~1,07 GB**, Mojo 1.2.0 — para o `p05-datalab`.
+
+Licença: a biblioteca padrão é **Apache-2.0 com exceção de LLVM**; o
+compilador é proprietário e **gratuito**, inclusive para uso comercial.
+Nenhum pagamento, e — o ponto que importa — **nenhuma conta**.
+
+Houve época em que a Modular exigia `modular auth` com um token do site. Isso
+acabou, e foi **medido antes de instalar**:
+
+```
+https://conda.modular.com/max/linux-64/repodata.json   ->  HTTP 200, sem token
+pacotes no canal: ['max', 'mojo', 'mojo-compiler']
+```
+
+Instalado com `pixi` (0.84.2, instalado junto), num projeto dedicado em vez de
+global, para que a remoção seja um `rm -rf` e não uma caça a pacotes.
+
+Remoção:
+
+```bash
+rm -rf ~/ferramentas/mojo ~/.cache/rattler ~/.pixi
+```
+
+> O `~/.pixi` sai junto porque o `pixi` foi instalado **para** o Mojo. Se
+> outro projeto passar a usá-lo, esta linha precisa mudar — e é por isso que
+> ela está escrita aqui e não só no comando agregado lá embaixo.
+
 ### Julia: por download, e a versão foi CONSULTADA
 
 **`~/ferramentas/julia`, 288 MB comprimido, Julia 1.13.4** — para o
@@ -236,6 +266,50 @@ I/O para 2,8 segundos de CPU.
 O AutoHotkey é *portátil*: um zip extraído, sem instalador e sem registro no
 sistema. Remover é apagar a pasta.
 
+## O que depende de CADASTRO, e por isso parou aqui
+
+Diferente da seção seguinte: **estas são gratuitas**, não custam nada, e o
+bloqueio não é dinheiro — é que instalá-las exige **criar uma conta**, e criar
+conta em nome do autor é decisão dele, não minha.
+
+| ferramenta | para quê | o que exige | medido em |
+|---|---|---|---|
+| **Wolfram Engine** | Wolfram Language no `p05-datalab` | **Wolfram ID** para ativar a licença (gratuita) | 2026-11-17 |
+| **SAS OnDemand** | SAS no `p05-datalab` | conta SAS, e roda só na nuvem deles | 2026-11-17 |
+| **PUB400** | RPG no `p13-legacy-bridge` | conta no sistema IBM i público | sessão anterior |
+| **SAP BTP Trial** | ABAP no `p13-legacy-bridge` | conta SAP | sessão anterior |
+| **Salesforce Dev Edition** | Apex no `p13-legacy-bridge` | conta Salesforce | sessão anterior |
+
+O que foi verificado sobre o Wolfram, e o que não foi:
+
+```
+$ curl -I https://www.wolfram.com/engine/      ->  HTTP 200
+```
+
+A página responde e o download do Linux é público. **A ativação é que exige o
+Wolfram ID** — o binário instala e se recusa a avaliar qualquer expressão sem
+licença ativada. Então não há como medir "funciona" sem a conta, e eu paro
+antes disso.
+
+> Se o autor quiser essas cinco, o caminho é ele criar as contas e me dizer —
+> aí as ferramentas entram, e o registro aqui passa a listar o que foi
+> instalado com elas. Até então, as linguagens correspondentes ficam marcadas
+> como **bloqueadas por cadastro**, e não como "a fazer", porque a diferença
+> importa: nenhuma delas depende de mais trabalho meu.
+
+### E o Mojo, que eu pensei que fosse deste grupo
+
+O Mojo **não** exige conta, e isso foi medido antes de instalar:
+
+```
+https://conda.modular.com/max/linux-64/repodata.json   ->  HTTP 200, sem token
+pacotes no canal: ['max', 'mojo', 'mojo-compiler']
+```
+
+Houve época em que a Modular pedia `modular auth` com um token do site. Hoje o
+canal conda é público, e `pixi add mojo` resolve. Está registrado logo acima,
+com o tamanho medido.
+
 ## O que foi recusado por ser pago
 
 A regra do portfólio é **nenhum recurso pago**, e dois itens do plano original
@@ -319,7 +393,16 @@ docker system prune -a --volumes
 sudo apt-get purge -y docker.io
 ```
 
-### 3. Toolchains baixados à mão — 1,1 GB
+### 3. Toolchains baixados à mão — 1,1 GB, mais 1,4 GB de Julia e Mojo
+
+```bash
+# Acrescentados em 2026-11-17/18, para o p05-datalab:
+rm -rf ~/ferramentas/julia          # 288 MB, Julia 1.13.4
+rm -rf ~/ferramentas/mojo           # 899 MB, Mojo 1.2.0 (ambiente pixi)
+rm -rf ~/.cache/rattler ~/.pixi     # 173 MB, cache e binário do pixi
+```
+
+### Os de antes — 1,1 GB
 
 ```bash
 rm -rf ~/toolchains                      # V e Odin
