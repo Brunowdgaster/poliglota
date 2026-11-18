@@ -358,6 +358,30 @@ sudo apt-get autoremove --purge -y
 `python3-pip`, `python3-venv` e `unzip` — são ferramentas de uso geral que
 provavelmente existiam antes, ou que outra coisa na máquina usa.
 
+### O Java tem duas versões, e só uma foi pedida
+
+Auditado em 2026-11-17, porque a linha acima diz `openjdk-21-jdk` e o `java`
+que roda **não é o 21**:
+
+```
+openjdk-21-jdk              287 MB   instalado MANUALMENTE (apt-mark showmanual)
+openjdk-25-jre-headless     234 MB   entrou como DEPENDÊNCIA
+default-jre-headless           —     idem
+
+$ readlink -f $(command -v java)
+/usr/lib/jvm/java-25-openjdk-amd64/bin/java
+```
+
+Ou seja: pedi o 21 (para Scala, Groovy e o Loom do p03), o apt trouxe o 25
+junto, e é o **25** que o `java` resolve — então é ele que executa o
+`scala-cli` e o Groovy.
+
+Isso **não** é um furo na lista de remoção: o `apt-get autoremove --purge`
+logo acima remove o 25, porque ele não é manual e nada mais vai depender dele
+depois que o 21 sair. Está registrado porque a lista existe para ser
+executada, e quem a ler merece saber que `purge openjdk-21-jdk` sozinho
+deixaria 234 MB para trás.
+
 E `sqlmap` e `ffuf` não são deste portfólio: foram instalados antes, em
 outubro e novembro, e **não devem ser removidos por esta lista**.
 

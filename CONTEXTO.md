@@ -65,9 +65,9 @@ ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá **70**; as distintas são 66, e a diferença são **quatro
-sobreposições**: GraphQL (P04 e P10), Python (P05 e P10), Rust (P01 e P03) e
-SQL (P05 e P10).
+Rodada em `p12-toolbelt/`. A soma por projeto dá **71**; as distintas são 66, e a diferença são **cinco
+sobreposições**: GraphQL (P04 e P10), Python (P05 e P10), Rust (P01 e P03),
+SQL (P05 e P10) e Scala (P03 e P05).
 
 > Esse número era **1** até 2026-11-17, e estava errado por um motivo que vale
 > guardar: três projetos **omitiam** a linguagem repetida do próprio registro
@@ -119,7 +119,7 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 12 | Erlang | P03 | conexão alternativa na mesma árvore; **1 byte** de diferença |
 | 13 | Gleam | P03 | codec tipado, 13 testes, `@external` para OTP sem FFI |
 | 14 | Go | P03 | gateway WebSocket sem dependências, 7,1 KB/conexão |
-| 15 | Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida |
+| 15 | Scala | P03 | Loom contra BEAM: 1.323 vs 2.732 bytes, inanição medida. E **também no P05**: `scala/modelo.scala` implementa os mesmos dois algoritmos do Fortran à mão, e dá **os mesmos números** (1,4e-08 e 3,4e-03) |
 | 16 | Clojure | P03 | atom/ref/agent contra GenServer; 2 patologias achadas |
 | 17 | HCL | P03 | OpenTofu, 20 asserções verificando 5 propriedades |
 | 18 | Fortran | P05 | `modelo.f90`: os **dois** algoritmos, à mão, no mesmo arquivo |
@@ -203,7 +203,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
 | P04 webstack | 10 | 0 | tudo |
-| P05 datalab | 10 | **7** — 70 % | Scala/Spark, Mojo, Wolfram, SAS |
+| P05 datalab | 10 | **8** — 80 % | Mojo, Wolfram |
 | P06 gpu-arena | 8 | 0 | tudo |
 | P07 engine | 6 | 0 | tudo |
 | P08 tri-mobile | 5 | 0 | tudo |
