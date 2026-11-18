@@ -49,7 +49,7 @@ escrito — não como pasta com *hello world*.
 Ninguém domina 100 linguagens de forma absoluta. O que estes repositórios
 demonstram, e declaram em cada README:
 
-- **profundidade real** em um núcleo de linguagens (hoje **65**, contadas por
+- **profundidade real** em um núcleo de linguagens (hoje **66**, contadas por
   ferramenta e não à mão — ver a seção 2);
 - **fluência de leitura, porte e avaliação de trade-off** nas demais.
 
@@ -60,12 +60,22 @@ profundidade é descoberto na primeira pergunta técnica.
 
 ## 2. Onde está, medido em 2026-11-16
 
-**65 linguagens distintas, de uma meta declarada de 100.** O número vem da
+**66 linguagens distintas, de uma meta declarada de 100.** O número vem da
 ferramenta, não da mão:
 
     lua5.4 lua/cobertura.lua lua/registro.lua --roadmap ../poliglota/ROADMAP.md
 
-Rodada em `p12-toolbelt/`. A soma por projeto dá 66; as distintas são 65
+Rodada em `p12-toolbelt/`. A soma por projeto dá **70**; as distintas são 66, e a diferença são **quatro
+sobreposições**: GraphQL (P04 e P10), Python (P05 e P10), Rust (P01 e P03) e
+SQL (P05 e P10).
+
+> Esse número era **1** até 2026-11-17, e estava errado por um motivo que vale
+> guardar: três projetos **omitiam** a linguagem repetida do próprio registro
+> "para não contar duas vezes" — quando o `cobertura.lua` já desduplica. O
+> efeito era subestimarem o próprio progresso (o P04 aparecia 11/12 sendo
+> 12/12; o P05, 5/10 sendo 7/10), e o README de cada um sempre disse o número
+> certo. Era o instrumento que estava errado, **e do lado seguro** — o que o
+> tornava difícil de notar.
 porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 
 > ### O que a auditoria desta data corrigiu
@@ -89,9 +99,9 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | **100** | `meta` em `registro.lua` | a meta de linguagens de fato — é contra esta que se mede |
 | ~130 | prosa original do ROADMAP | número de divulgação, nunca foi contado. **Não use** |
 
-**65 de 100 — 65 %. Faltam 35.**
+**66 de 100 — 66 %. Faltam 34.**
 
-### As 65, com a evidência ao lado
+### As 66, com a evidência ao lado
 
 | # | linguagem | projeto | evidência |
 |---|---|---|---|
@@ -160,6 +170,7 @@ porque **Rust é a única sobreposição** (P01 e P03), e a ferramenta desconta.
 | 63 | Assembly RISC-V | P01 | `ports/asm/riscv64/fvm.s`: `slt` em **uma** instrução, e nenhum registrador de condição |
 | 64 | T-SQL | P10 | `tsql/transferir.sql`: um `ROLLBACK` aninhado **destrói a transação do chamador**, medido |
 | 65 | PL/SQL | P10 | `plsql/transferir.sql`: `SELECT INTO` é estrito por padrão, e **todo DDL faz COMMIT** |
+| 66 | Julia | P05 | `julia/modelo.jl`: as duas famílias, e que **qual fatoração** se usa muda o erro por 100× |
 
 ### A convenção de contagem mudou — e por quê
 
@@ -192,7 +203,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P02 forge-lang | 15 | **3** — 20 % | Lisps ×3, Prolog, Lean, Coq, Agda, Idris, Isabelle, TLA+, WAT |
 | P03 otp-mesh | 8 | **8 — completo** | — |
 | P04 webstack | 10 | 0 | tudo |
-| P05 datalab | 10 | **4** — 40 % | Julia (fora do apt), Scala/Spark, Mojo, Wolfram, SAS |
+| P05 datalab | 10 | **7** — 70 % | Scala/Spark, Mojo, Wolfram, SAS |
 | P06 gpu-arena | 8 | 0 | tudo |
 | P07 engine | 6 | 0 | tudo |
 | P08 tri-mobile | 5 | 0 | tudo |

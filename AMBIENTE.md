@@ -122,6 +122,26 @@ Estes não têm pacote no Ubuntu 26.04, e foram baixados dos projetos oficiais.
 | **Nix store** | `/nix` | **8,0 GB** | o flake do p12 | LGPL-2.1 |
 | **Pharo 11** | `~/pharo` | 310 MB | **Smalltalk** do p14 | MIT |
 
+### Julia: por download, e a versão foi CONSULTADA
+
+**`~/ferramentas/julia`, 288 MB comprimido, Julia 1.13.4** — para o
+`p05-datalab`, onde o operador `\` resolve mínimos quadrados por QR e a
+biblioteca padrão já traz `LinearAlgebra`.
+
+Licença **MIT**, sem cadastro, sem chave.
+
+Instalado em 2026-11-17 a partir do tarball oficial, e **não** pelo apt (o
+Ubuntu empacota uma versão atrás) nem pelo `juliaup` (que instalaria um
+gerenciador a mais para administrar uma única versão).
+
+A versão não foi escolhida de memória: o script consultou
+`julialang-s3.julialang.org/bin/versions.json` e pegou a mais nova marcada
+como `stable`. Isso importa porque a sessão anterior deste portfólio perdeu
+dois CIs por supor o nome de um arquivo de download — a convenção do Zig havia
+mudado, e o `curl` sem `-f` baixou a página de erro com código de saída zero.
+
+Remoção: `rm -rf ~/ferramentas/julia` — autocontido, nada no sistema.
+
 ### Pharo: por que por download, e não pelo apt
 
 Nenhum Smalltalk utilizável está empacotado no Ubuntu 26.04, e isso foi
