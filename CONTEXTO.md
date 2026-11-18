@@ -67,7 +67,7 @@ ferramenta, não da mão:
 
 Rodada em `p12-toolbelt/`. A soma por projeto dá **72**; as distintas são 67, e a diferença são **cinco
 sobreposições**: GraphQL (P04 e P10), Python (P05 e P10), Rust (P01 e P03),
-SQL (P05 e P10) e Scala (P03 e P05).
+SQL (P05, P10 e P13) e Scala (P03 e P05).
 
 > Esse número era **1** até 2026-11-17, e estava errado por um motivo que vale
 > guardar: três projetos **omitiam** a linguagem repetida do próprio registro
@@ -212,7 +212,7 @@ projetadas **e** implementadas, com gramática, montador e compilador.
 | P10 query-lab | 8 | **8 — completo** | — |
 | P11 chain | 6 | 0 | tudo |
 | P12 toolbelt | 11 | **11 — completo** | — |
-| P13 legacy | 9 | **4** — 44 % | PL/I, RPG, ABAP, Apex, SQL |
+| P13 legacy-bridge | 9 | **5** — 56 % | PL/I; e RPG, ABAP, Apex (**bloqueados por cadastro**) |
 | P14 first-code | 5 | **5 — completo** | — |
 
 > Atenção à diferença entre as duas contagens, que **não** é erro: o P05 feito
@@ -703,12 +703,34 @@ divirjam** no caso mal-condicionado (se passassem a concordar, a tese do
 projeto estaria errada, e é esse teste que avisaria); e o instantâneo gravado
 também é comparado com tolerância — ver o caso espelhado na seção 6.
 
-### P13 legacy-bridge — 3/9, 16 verificações
+### P13 legacy-bridge — 5/9, 24 verificações
 
-Um lote bancário em COBOL migrado para C# e VB.NET, com equivalência provada
-por `cmp`. Com `decimal`, as duas são **idênticas ao COBOL byte a byte**; com
-`double`, a **mesma regra, mesma ordem de operações, mesmo arredondamento**
-perde **um centavo** na conta 13.
+Um lote bancário em COBOL migrado para C#, VB.NET, Object Pascal e **SQL**,
+com equivalência provada por `cmp`. Com `decimal`/`Currency`/`NUMERIC`, as
+quatro são **idênticas ao COBOL byte a byte**; com `double`, a **mesma regra,
+mesma ordem de operações, mesmo arredondamento** perde **um centavo** na conta
+13.
+
+**O SQL fecha o argumento do projeto**, porque é um arquivo só rodando em dois
+motores:
+
+* no **PostgreSQL**, saída idêntica ao COBOL. `NUMERIC(p,s)` é a mesma ideia
+  do `PICTURE 9(10)V99` — o COBOL resolveu em 1959, o SQL em 1992, o C# em
+  2002 — e o `ROUND` dele arredonda meio para longe de zero **por omissão**,
+  que é o `ROUNDED` do COBOL. O C# precisou de `AwayFromZero` explícito;
+* no **SQLite**, **13 das 14 contas erradas** — e não pelo motivo que eu
+  previ. Lá `NUMERIC` é **afinidade** e não tipo: `CAST('120' AS NUMERIC)`
+  vira `integer`, `120/100` **trunca para 1**, e `1250/10000` dá **zero** (os
+  juros do lote inteiro saem nulos). A mesma coluna guarda `real` para `1.20`
+  e `integer` para `120`.
+
+E a **correção óbvia mede o custo de si mesma**: trocar `/100` por `/100.0`
+derruba o erro de 13 para **2 de 14** — e as duas que sobram são exatamente as
+contas de empate, onde o resultado exato é `0,035`. Em binário isso **não está
+no meio**, então a pergunta do modo de arredondamento nunca é feita.
+
+> O erro que se vê se corrige num minuto; o que fica só aparece conferindo
+> centavo por centavo.
 
 As contas 13 e 14 **não foram escolhidas à mão** — está dito em `dados/gera.py`
 que um programa varreu saldos de 0,01 a 2.000,00 contra taxas de 1 a 2.500
