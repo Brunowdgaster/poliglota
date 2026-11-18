@@ -297,10 +297,22 @@ duas imagens de contêiner de vários gigabytes.
 > dizia "~1,5 GB" e "~2,5 GB" — o do Oracle errado por mais de cinco vezes, e
 > corrigido no `AMBIENTE.md` com a medição ao lado.
 >
-> **O CI roda o T-SQL e dispensa o PL/SQL**, porque 13,8 GB não cabem nos
-> ~14 GB do runner. A dispensa é a única do projeto: exige uma variável
-> própria, imprime "dispensado" em vez de "pulado", é contada separada no
-> resumo, e o disco do runner é **medido no log** em vez de afirmado.
+> **O CI roda os dois**, o Oracle num job separado — e isso é uma correção.
+>
+> Eu havia dispensado o PL/SQL do CI afirmando que 13,8 GB *"não cabem nos
+> ~14 GB do runner"*. A primeira metade era medida; a segunda eu afirmei de
+> memória. Escrevi então um passo que mede o disco **para dar evidência à
+> minha própria afirmação** — e ele mediu **91 GB livres**, imprimindo o aviso
+> de reavaliar que eu mesmo havia deixado nele.
+>
+> O instrumento que eu construí para me confirmar me corrigiu, e é a
+> décima-segunda ocorrência do padrão da seção 6 deste arquivo.
+>
+> A dispensa continua existindo, com a justificativa verdadeira — baixar
+> 13,8 GB no job das consultas atrasaria as outras sete linguagens e faria
+> falha de rede parecer falha delas — e continua estreita: exige variável
+> própria, imprime "dispensado" em vez de "pulado", e é contada separada no
+> resumo.
 
 | ordem | o que | linguagens | por quê agora |
 |---|---|---|---|
@@ -650,9 +662,19 @@ roda em três: `VALUES` multilinha está no SQL-92 e o Oracle não aceita, entã
 `plsql/traduz_carga.py` deriva a forma dele **da mesma fonte** — porque duas
 fontes para o mesmo domínio já divergiram aqui.
 
-O **CI roda o T-SQL e dispensa o PL/SQL**: 13,8 GB de imagem não cabem nos
-~14 GB do runner, e o disco é medido num passo do workflow para a dispensa ter
-evidência em vez de ser afirmação.
+**O CI roda os dois**, o Oracle num job separado — e como isso ficou assim é
+a lição do dia:
+
+Eu dispensei o PL/SQL do CI afirmando que 13,8 GB *"não cabem nos ~14 GB do
+runner"*. A primeira metade era medida; a segunda eu afirmei de memória. Então
+escrevi um passo que mede o disco **para dar evidência à minha própria
+afirmação** — e ele mediu **91 GB livres**, imprimindo o aviso de reavaliar que
+eu mesmo havia deixado nele.
+
+O PL/SQL passou a rodar no CI. A dispensa continua existindo, com a
+justificativa verdadeira: baixar 13,8 GB no job das consultas atrasaria a
+verificação das outras sete linguagens e faria uma falha de rede aparecer como
+falha delas.
 
 Parcial de propósito: T-SQL e PL/SQL exigem imagens de 1,5 GB e 2,5 GB. A
 suíte já sabe pular, e `QLAB_EXIGE=1` **recusa pular** no CI.
